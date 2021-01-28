@@ -1,15 +1,25 @@
 package com.openclassrooms.realestatemanager.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
-import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.databinding.ActivitySignInBinding;
+
+import java.util.ArrayList;
 
 public class SignInActivity extends AppCompatActivity {
+
+    private ActivitySignInBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        binding = ActivitySignInBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+
     }
+
 }
