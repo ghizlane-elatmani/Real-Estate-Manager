@@ -7,6 +7,7 @@ public class Estate {
     // --- Attribute ---
     private int id;
     private String type;
+    private int price;
     private String address;
     private int surface;
     private int number_rooms;
@@ -23,9 +24,10 @@ public class Estate {
 
     }
 
-    public Estate(int id, String type, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, Date entry_date, Date date_sale, int agent_id) {
+    public Estate(int id, String type, int price, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, Date entry_date, Date date_sale, int agent_id) {
         this.id = id;
         this.type = type;
+        this.price = price;
         this.address = address;
         this.surface = surface;
         this.number_rooms = number_rooms;
@@ -45,6 +47,9 @@ public class Estate {
     }
     public String getType() {
         return type;
+    }
+    public int getPrice() {
+        return price;
     }
     public String getAddress() {
         return address;
@@ -84,6 +89,9 @@ public class Estate {
     }
     public void setType(String type) {
         this.type = type;
+    }
+    public void setPrice(int price) {
+        this.price = price;
     }
     public void setAddress(String address) {
         this.address = address;

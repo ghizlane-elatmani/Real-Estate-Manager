@@ -2,4 +2,7 @@
     <string name="app_name">Real Estate Manager</string>
 
     <string name="log_in">Log In</string>
+    <string name="price">price</string>
+    <string name="city">city</string>
+    <string name="type">type</string>
 </resources>
