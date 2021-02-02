@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.openclassrooms.realestatemanager.repository.AgentDataRepository;
 import com.openclassrooms.realestatemanager.repository.EstateDataRepository;
 import com.openclassrooms.realestatemanager.repository.PhotoDataRepository;
+import com.openclassrooms.realestatemanager.viewModel.EstateViewModel;
 
 import java.util.concurrent.Executor;
 
@@ -27,6 +28,6 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return null;
+        return (T) new EstateViewModel(agentDataSource, estateDataSource, photoDataSource, executor);
     }
 }
