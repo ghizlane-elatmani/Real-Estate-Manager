@@ -1,46 +1,60 @@
 package com.openclassrooms.realestatemanager.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "photos", foreignKeys = @ForeignKey(entity = Estate.class,
+        parentColumns = "id",
+        childColumns = "estate_id"))
 public class Photo {
 
     // --- Attribute ---
+    @PrimaryKey(autoGenerate = true)
     private int id;
-    private String url_picture;
-    private int estate_id;
+    private String uri;
+    private String label;
+    @ColumnInfo(name = "estate_id")
+    private int estateId;
 
-
-    // --- Constructor
-    public Photo(){
-
+    // --- Constructor ---
+    public Photo() {
     }
 
-    public Photo(int id, String url_picture, int estate_id) {
-        this.id = id;
-        this.url_picture = url_picture;
-        this.estate_id = estate_id;
+    public Photo(String uri, String label, int estateId) {
+        this.uri = uri;
+        this.label = label;
+        this.estateId = estateId;
     }
-
 
     // --- Getters ---
     public int getId() {
         return id;
     }
-    public String getUrl_picture() {
-        return url_picture;
+    public String getUri() {
+        return uri;
     }
-    public int getEstate_id() {
-        return estate_id;
+    public String getLabel() {
+        return label;
     }
-
+    public int getEstateId() {
+        return estateId;
+    }
 
     // --- Setters ---
     public void setId(int id) {
         this.id = id;
     }
-    public void setUrl_picture(String url_picture) {
-        this.url_picture = url_picture;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
-    public void setEstate_id(int estate_id) {
-        this.estate_id = estate_id;
+    public void setLabel(String label) {
+        this.label = label;
     }
+    public void setEstateId(int estateId) {
+        this.estateId = estateId;
+    }
+
 
 }

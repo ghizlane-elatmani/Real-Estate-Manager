@@ -1,8 +1,13 @@
 package com.openclassrooms.realestatemanager.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "agent")
 public class Agent {
 
     // --- Attribute ---
+    @PrimaryKey
     private int id;
     private String first_name;
     private String last_name;

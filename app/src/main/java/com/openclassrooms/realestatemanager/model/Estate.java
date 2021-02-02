@@ -1,10 +1,18 @@
 package com.openclassrooms.realestatemanager.model;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity(tableName = "estate", foreignKeys = @ForeignKey(entity = Agent.class,
+        parentColumns = "id",
+        childColumns = "agent_id"))
 public class Estate {
 
     // --- Attribute ---
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String type;
     private int price;
@@ -36,7 +44,7 @@ public class Estate {
         this.points_interest = points_interest;
         this.status = status;
         this.entry_date = entry_date;
-        this.date_sale = date_sale;
+        this.date_sale = null;
         this.agent_id = agent_id;
     }
 
