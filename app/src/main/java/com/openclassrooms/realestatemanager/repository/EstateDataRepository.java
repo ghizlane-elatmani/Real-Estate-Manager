@@ -15,19 +15,19 @@ public class EstateDataRepository {
         this.estateDao = estateDao;
     }
 
-    LiveData<Estate> getEstate(int id){
+    public LiveData<Estate> getEstate(int id){
         return estateDao.getEstate(id);
     }
 
-    LiveData<List<Estate>> getAllEstates(){
+    public LiveData<List<Estate>> getAllEstates(){
         return estateDao.getAllEstates();
     }
 
-    void insertEstate(Estate estate){
+    public void insertEstate(Estate estate){
         estateDao.insertEstate(estate);
     }
 
-    void updateEstate(Estate estate){
+    public void updateEstate(Estate estate){
         estateDao.updateEstate(estate);
     }
 
