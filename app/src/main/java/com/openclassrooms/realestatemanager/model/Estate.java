@@ -32,8 +32,7 @@ public class Estate {
 
     }
 
-    public Estate(int id, String type, int price, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, Date entry_date, Date date_sale, int agent_id) {
-        this.id = id;
+    public Estate(String type, int price, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, Date entry_date, Date date_sale, int agent_id) {
         this.type = type;
         this.price = price;
         this.address = address;
