@@ -17,7 +17,7 @@ import com.openclassrooms.realestatemanager.model.Agent;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.model.Photo;
 
-@Database(entities = {Agent.class, Estate.class, Photo.class}, version = 1)
+@Database(entities = {Agent.class, Estate.class, Photo.class}, version = 1, exportSchema = false)
 public abstract class RealEstateDatabase extends RoomDatabase {
 
     // --- SINGLETON ---
@@ -55,33 +55,19 @@ public abstract class RealEstateDatabase extends RoomDatabase {
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
 
-                Agent[] agents = DataSource.getAllAgent();
-                for (Agent agent : agents) {
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("id", agent.getId());
-                    contentValues.put("first_name", agent.getFirst_name());
-                    contentValues.put("last_name", agent.getLast_name());
-                    contentValues.put("mail", agent.getMail());
-                    db.insert("agent", OnConflictStrategy.IGNORE, contentValues);
-                }
+                ContentValues contentValues1 = new ContentValues();
+                contentValues1.put("id", 1);
+                contentValues1.put("first_name", "Théa");
+                contentValues1.put("last_name", "Queen");
+                contentValues1.put("mail", "thea_queen@gmail.com");
+                db.insert("agent", OnConflictStrategy.IGNORE, contentValues1);
 
-                Estate[] estates = DataSource.getAllEstate();
-                for (Estate estate : estates) {
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("type", estate.getType());
-                    contentValues.put("price", estate.getPrice());
-                    contentValues.put("address", estate.getAddress());
-                    contentValues.put("surface", estate.getSurface());
-                    contentValues.put("number_room", estate.getNumber_rooms());
-                    contentValues.put("description", estate.getDescription());
-                    contentValues.put("url_picture", estate.getUrl_picture());
-                    contentValues.put("points_interest", estate.getPoints_interest());
-                    contentValues.put("status", estate.getStatus());
-                    contentValues.put("entry_date", String.valueOf(estate.getEntry_date()));
-                    contentValues.put("date_sale", String.valueOf(estate.getDate_sale()));
-                    contentValues.put("agent_id", estate.getAgent_id());
-                    db.insert("estate", OnConflictStrategy.IGNORE, contentValues);
-                }
+                ContentValues contentValues2 = new ContentValues();
+                contentValues2.put("id", 2);
+                contentValues2.put("first_name", "Théa");
+                contentValues2.put("last_name", "Queen");
+                contentValues2.put("mail", "théa_queen@gmail.com");
+                db.insert("agent", OnConflictStrategy.IGNORE, contentValues1);
 
             }
         };

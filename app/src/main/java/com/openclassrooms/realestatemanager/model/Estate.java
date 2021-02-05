@@ -23,8 +23,8 @@ public class Estate {
     private String url_picture;
     private String points_interest;
     private String status;
-    private Date entry_date;
-    private Date date_sale;
+    private String entry_date;
+    private String date_sale;
     private int agent_id;
 
     // --- Constructor ---
@@ -32,7 +32,7 @@ public class Estate {
 
     }
 
-    public Estate(String type, int price, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, Date entry_date, Date date_sale, int agent_id) {
+    public Estate(String type, int price, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, String entry_date, String date_sale, int agent_id) {
         this.type = type;
         this.price = price;
         this.address = address;
@@ -79,10 +79,10 @@ public class Estate {
     public String getStatus() {
         return status;
     }
-    public Date getEntry_date() {
+    public String getEntry_date() {
         return entry_date;
     }
-    public Date getDate_sale() {
+    public String getDate_sale() {
         return date_sale;
     }
     public int getAgent_id() {
@@ -121,10 +121,10 @@ public class Estate {
     public void setStatus(String status) {
         this.status = status;
     }
-    public void setEntry_date(Date entry_date) {
+    public void setEntry_date(String entry_date) {
         this.entry_date = entry_date;
     }
-    public void setDate_sale(Date date_sale) {
+    public void setDate_sale(String date_sale) {
         this.date_sale = date_sale;
     }
     public void setAgent_id(int agent_id) {
