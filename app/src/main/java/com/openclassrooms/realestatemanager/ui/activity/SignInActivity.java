@@ -65,7 +65,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Agent agent = (Agent)parent.getItemAtPosition(position);
-                Toast.makeText(SignInActivity.this, agent.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignInActivity.this, parent.getContext().getString(R.string.welcome) + " " + agent.toString() + "!", Toast.LENGTH_SHORT).show();
                 navigateToMainActivity(agent);
             }
         });
