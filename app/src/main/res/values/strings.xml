@@ -1,10 +1,24 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
+    <!-- Toolbar -->
+    <string name="add">Add</string>
+    <string name="search_engine">Search</string>
+    <string name="modify">Modify</string>
+
+    <!-- Navigation Drawer -->
+    <string name="navigation_drawer_map">Map View</string>
+    <string name="navigation_drawer_simulator">Simulator</string>
+
+    <!-- SignInActivity -->
+    <string name="welcome">Welcome</string>
     <string name="log_in">Log In</string>
+
+    <!-- ListFragment -->
     <string name="price">price</string>
     <string name="city">city</string>
     <string name="type">type</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget ipsum et ante viverra interdum vitae eu risus. Aenean dictum aliquam volutpat. Aliquam a dolor quam. Nulla porttitor diam justo, quis tincidunt est porttitor et. Cras eget porta ex. Praesent ac arcu mauris. Morbi fermentum ut nulla at feugiat. Aliquam efficitur eleifend venenatis. Suspendisse congue ullamcorper elit, eget aliquam nisi porttitor quis. </string>
-    <string name="welcome">Welcome</string>
+
+
 </resources>

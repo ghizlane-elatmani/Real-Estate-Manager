@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_drawer_top_menu">
+        <item android:title="">
+            <menu>
+                <item
+                    android:id="@+id/menu_drawer_map"
+                    android:icon="@drawable/ic_map"
+                    android:title="@string/navigation_drawer_map" />
+
+                <item
+                    android:id="@+id/menu_drawer_simulator"
+                    android:icon="@drawable/ic_functions"
+                    android:title="@string/navigation_drawer_simulator" />
+
+            </menu>
+        </item>
+    </group>
+</menu>
