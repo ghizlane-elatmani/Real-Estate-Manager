@@ -9,6 +9,8 @@
     <!-- Navigation Drawer -->
     <string name="navigation_drawer_map">Map View</string>
     <string name="navigation_drawer_simulator">Simulator</string>
+    <string name="navigation_drawer_menu_open" translatable="false">open</string>
+    <string name="navigation_drawer_menu_close" translatable="false">close</string>
 
     <!-- SignInActivity -->
     <string name="welcome">Welcome</string>
