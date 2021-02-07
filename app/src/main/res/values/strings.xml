@@ -21,6 +21,8 @@
     <string name="city">city</string>
     <string name="type">type</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget ipsum et ante viverra interdum vitae eu risus. Aenean dictum aliquam volutpat. Aliquam a dolor quam. Nulla porttitor diam justo, quis tincidunt est porttitor et. Cras eget porta ex. Praesent ac arcu mauris. Morbi fermentum ut nulla at feugiat. Aliquam efficitur eleifend venenatis. Suspendisse congue ullamcorper elit, eget aliquam nisi porttitor quis. </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
