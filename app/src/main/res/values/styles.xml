@@ -15,4 +15,10 @@
         <item name="color">@android:color/white</item>
     </style>
 
+    <style name="ToolbarTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
 </resources>

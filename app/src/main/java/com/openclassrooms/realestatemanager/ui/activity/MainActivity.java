@@ -1,28 +1,39 @@
 package com.openclassrooms.realestatemanager.ui.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.ListFragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
-public class MainActivity extends AppCompatActivity {
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.openclassrooms.realestatemanager.utils.Constant.ACCESS_LOCATION;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // --- Attribute ---
     private ActivityMainBinding binding;
+    private NavController navController;
+    private boolean isNetworkAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,46 +42,23 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        configureToolBar();
-        configureDrawerNavigation();
+        configureNavigationUI();
 
     }
 
+    private void configureNavigationUI() {
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if(navHostFragment != null){
+            navController = navHostFragment.getNavController();
+        }
+        setSupportActionBar(binding.activityMainToolbar.getRoot());
+        NavigationUI.setupActionBarWithNavController(this, navController, binding.mainDrawerLayout);
+        NavigationUI.setupWithNavController(binding.activityMainToolbar.getRoot(), navController, binding.mainDrawerLayout);
+        NavigationUI.setupWithNavController(binding.mainNavigationView, navController);
 
-    private void configureToolBar() {
-        setSupportActionBar(binding.mainToolbar);
-        binding.mainToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        binding.mainToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
+        binding.mainNavigationView.setNavigationItemSelectedListener(this);
     }
 
-
-    private void configureDrawerNavigation() {
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
-                binding.mainDrawerLayout,
-                binding.mainToolbar,
-                R.string.navigation_drawer_menu_open,
-                R.string.navigation_drawer_menu_close);
-        binding.mainDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        binding.mainNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                if (item.getItemId() == R.id.menu_drawer_map) {
-                    // TODO
-                } else if (item.getItemId() == R.id.menu_drawer_simulator) {
-                    // TODO
-                }
-
-                binding.mainDrawerLayout.closeDrawer(GravityCompat.START);
-
-                return true;
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
@@ -81,14 +69,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void launchListFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(binding.mainFragment.getId(), new ListFragment())
-                .commit();
-        setTitle(R.string.app_name);
-    }
-
     private void closeKeyboard() {
         View view = getCurrentFocus();
         if (view != null) {
@@ -96,6 +76,54 @@ public class MainActivity extends AppCompatActivity {
             if (inputMethodManager != null) {
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.mapViewFragment) {
+            checkIfNetworkAvailable();
+            if (isNetworkAvailable) {
+                getPermissionsAccessLocation();
+            }
+        } else if (itemId == R.id.simulatorFragment) {
+            navController.navigate(R.id.addFragment);
+            binding.mainDrawerLayout.close();
+        }
+        return true;
+    }
+
+    private void checkIfNetworkAvailable() {
+        isNetworkAvailable = Utils.isNetworkAvailable(this);
+        if (!isNetworkAvailable) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.network_title))
+                    .setMessage(getString(R.string.network_to_access_info))
+                    .setPositiveButton(getString(R.string.allow), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            MainActivity.this.startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @AfterPermissionGranted(ACCESS_LOCATION)
+    private void getPermissionsAccessLocation() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            navController.navigate(R.id.mapViewFragment);
+            binding.mainDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.permission_location), ACCESS_LOCATION, perms);
         }
     }
 
