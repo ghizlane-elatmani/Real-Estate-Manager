@@ -7,7 +7,7 @@
     tools:context=".ui.fragment.ListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragmentLikeRecyclerView"
+            android:id="@+id/fragmentListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/estate_item"/>
