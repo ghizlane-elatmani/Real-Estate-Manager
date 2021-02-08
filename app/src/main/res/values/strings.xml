@@ -32,5 +32,19 @@
     <string name="network_to_access_info">The application need a network access to access your device\'s location information</string>
     <string name="allow">Allow</string>
 
+    <!-- DetailFragment -->
+    <string name="description_detail_fragment">Description :</string>
+    <string name="attribute_detail_fragment">Attribute :</string>
+    <string name="surface_detail_fragment">Surface</string>
+    <string name="number_bedroom">Number_bedroom</string>
+    <string name="additional_information_detail_fragment">Additional Information :</string>
+    <string name="address_detail_fragment">Address</string>
+    <string name="point_of_interest_detail_fragment">Point of Interest</string>
+    <string name="Location_detail_fragment">Location :</string>
+    <string name="type_detail_fragment">Type</string>
+    <string name="available">Available or Sold</string>
+    <string name="entry_date">Entry Date</string>
+    <string name="sold_date">Date of Sale</string>
+
 
 </resources>
