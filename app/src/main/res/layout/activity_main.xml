@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/activity_main_toolbar"
+            android:id="@+id/main_toolbar"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <fragment
-            android:id="@+id/nav_host_fragment"
+            android:id="@+id/main_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_main_toolbar"
+            app:layout_constraintTop_toBottomOf="@id/main_toolbar"
             app:navGraph="@navigation/nav_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFF"
+        android:background="#221F26"
         app:elevation="16dp"
         app:headerLayout="@layout/activity_main_nav_header"
         app:itemIconTint="#FF8F00"
@@ -52,7 +52,7 @@
             android:layout_width="176dp"
             android:layout_height="152dp"
             android:layout_gravity="bottom|center"
-            android:src="@drawable/real_estate" />
+            android:src="@drawable/logo" />
 
     </com.google.android.material.navigation.NavigationView>
 

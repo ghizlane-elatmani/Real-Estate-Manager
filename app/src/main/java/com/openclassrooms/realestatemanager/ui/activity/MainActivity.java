@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void configureNavigationUI() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         if(navHostFragment != null){
             navController = navHostFragment.getNavController();
         }
-        setSupportActionBar(binding.activityMainToolbar.getRoot());
+        setSupportActionBar(binding.mainToolbar.getRoot());
         NavigationUI.setupActionBarWithNavController(this, navController, binding.mainDrawerLayout);
-        NavigationUI.setupWithNavController(binding.activityMainToolbar.getRoot(), navController, binding.mainDrawerLayout);
+        NavigationUI.setupWithNavController(binding.mainToolbar.getRoot(), navController, binding.mainDrawerLayout);
         NavigationUI.setupWithNavController(binding.mainNavigationView, navController);
 
         binding.mainNavigationView.setNavigationItemSelectedListener(this);
@@ -82,13 +82,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.mapViewFragment) {
+        if (itemId == R.id.menu_drawer_map) {
             checkIfNetworkAvailable();
             if (isNetworkAvailable) {
                 getPermissionsAccessLocation();
             }
-        } else if (itemId == R.id.simulatorFragment) {
-            navController.navigate(R.id.addFragment);
+        } else if (itemId == R.id.menu_drawer_simulator) {
+            navController.navigate(R.id.simulatorFragment);
             binding.mainDrawerLayout.close();
         }
         return true;
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getPermissionsAccessLocation() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
         if (EasyPermissions.hasPermissions(this, perms)) {
-            navController.navigate(R.id.mapViewFragment);
+            navController.navigate(R.id.mapViewFragment, null);
             binding.mainDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             EasyPermissions.requestPermissions(this, getString(R.string.permission_location), ACCESS_LOCATION, perms);
