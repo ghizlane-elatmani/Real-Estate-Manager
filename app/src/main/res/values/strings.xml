@@ -33,18 +33,47 @@
     <string name="allow">Allow</string>
 
     <!-- DetailFragment -->
-    <string name="description_detail_fragment">Description :</string>
-    <string name="attribute_detail_fragment">Attribute :</string>
-    <string name="surface_detail_fragment">Surface</string>
-    <string name="number_bedroom">Number_bedroom</string>
+    <string name="surface">Surface</string>
+    <string name="description">Description</string>
+    <string name="attribute">Attribute</string>
+    <string name="number_bedroom">Number of Room</string>
+    <string name="location">Location</string>
+
+    <string name="surface_2">Surface :</string>
+    <string name="description_2">Description :</string>
+    <string name="attribute_2">Attribute :</string>
+    <string name="number_room_2">Number of Room :</string>
+    <string name="location_2">Location :</string>
+    <string name="type_2">Type :</string>
+    <string name="price_2">Price :</string>
+
+
     <string name="additional_information_detail_fragment">Additional Information :</string>
-    <string name="address_detail_fragment">Address</string>
+    <string name="address">Address</string>
     <string name="point_of_interest_detail_fragment">Point of Interest</string>
-    <string name="Location_detail_fragment">Location :</string>
     <string name="type_detail_fragment">Type</string>
-    <string name="available">Available or Sold</string>
+    <string name="available_or_sold">Available or Sold</string>
+    <string name="available">Available</string>
     <string name="entry_date">Entry Date</string>
     <string name="sold_date">Date of Sale</string>
+    <string name="number_room">Number of Rooms :</string>
 
+
+    <!-- Number -->
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="moreThanFive">6..x</string>
+    <string name="duplex">duplex</string>
+    <string name="lofts">loft</string>
+    <string name="penthouse">penthouse</string>
+    <string name="manor">manor</string>
+    <string name="school">School</string>
+    <string name="shop">Shop</string>
+    <string name="park">Park</string>
+    <string name="transportation">Transportation</string>
+    <string name="sold">Sold</string>
 
 </resources>
