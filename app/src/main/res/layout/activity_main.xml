@@ -40,19 +40,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#221F26"
+        android:background="@color/colorPrimary"
         app:elevation="16dp"
         app:headerLayout="@layout/activity_main_nav_header"
-        app:itemIconTint="#FF8F00"
-        app:itemTextColor="#FF8F00"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_drawer">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="176dp"
-            android:layout_height="152dp"
-            android:layout_gravity="bottom|center"
-            android:src="@drawable/logo" />
 
     </com.google.android.material.navigation.NavigationView>
 

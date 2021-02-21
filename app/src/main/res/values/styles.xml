@@ -12,13 +12,23 @@
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@android:color/white</item>
+        <item name="color">@android:color/black</item>
     </style>
 
     <style name="ToolbarTheme" parent="AppTheme">
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">#000000</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">#000000</item>
+    </style>
+
+    <style name="CustomChip" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@drawable/background_chip</item>
+        <item name="android:textColor">@drawable/text_chip</item>
+        <item name="rippleColor">@color/colorAccent</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/grey</item>
+        <item name="android:textAlignment">center</item>
+        <item name="chipMinHeight">35dp</item>
     </style>
 
 </resources>

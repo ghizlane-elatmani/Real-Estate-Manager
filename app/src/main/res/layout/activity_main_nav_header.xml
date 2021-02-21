@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:background="#101820"
+    android:background="@color/colorPrimaryDark"
     android:padding="15dp">
 
     <androidx.appcompat.widget.AppCompatTextView

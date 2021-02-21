@@ -9,19 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.databinding.FragmentListBinding;
+import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding;
 
 
 public class SearchFragment extends Fragment {
 
+    private FragmentSearchBinding binding;
+
     public SearchFragment() {
         // Required empty public constructor
-    }
-
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-
-        return fragment;
     }
 
     @Override
@@ -31,9 +28,49 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
+
+        return binding.getRoot();
     }
+
+
+    public void getPrice(){
+        //TODO
+    }
+
+    public void getType(){
+        //TODO
+    }
+
+    public void getSurface(){
+        //TODO
+    }
+
+    public void getNumberRoom(){
+        //TODO
+    }
+
+    public void getLocation(){
+        //TODO
+    }
+
+    public void getPointInterest(){
+        //TODO
+    }
+
+    public void getAvailability(){
+        //TODO
+    }
+
+    public void getAvailabilityDate(){
+        //TODO
+    }
+
+    public void getNumberPhoto(){
+        //TODO
+    }
+
 }
