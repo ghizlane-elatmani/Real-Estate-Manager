@@ -1,38 +1,44 @@
 package com.openclassrooms.realestatemanager.ui.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.model.Estate;
+import com.openclassrooms.realestatemanager.model.Photo;
 
 import java.util.List;
 
 public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateViewHolder> {
 
-
+    private Context context;
     private List<Estate> estateList;
+    private List<Photo> photoList;
 
-    public EstateAdapter(List<Estate> estateList){
+    public EstateAdapter(Context context, List<Estate> estateList, List<Photo> photoList){
+        this.context = context;
         this.estateList = estateList;
+        this.photoList = photoList;
     }
 
     @NonNull
     @Override
     public EstateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.estate_item, parent, false);
-        return new EstateViewHolder(view);
+        Context context = parent.getContext();
+        RowEstateBinding binding = RowEstateBinding.inflate(LayoutInflater.from(context),parent,false);
+        return new EstateViewHolder(binding, context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
-        holder.updateWithEstateDetails(this.estateList.get(position));
+    public void onBindViewHolder(@NonNull EstateViewHolder holder, final int position) {
+        holder.updateUI(estateList.get(position), photoList);
     }
 
     @Override
@@ -40,27 +46,37 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         return estateList.size();
     }
 
+
     public static class EstateViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView pictureImageView;
-        private TextView typeTextView;
-        private TextView priceTextView;
+        public RowEstateBinding binding;
+        private Context context;
 
-        public EstateViewHolder(@NonNull View itemView) {
-            super(itemView);
+        public EstateViewHolder(RowEstateBinding binding, Context context) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.getRoot().setTag(this);
 
-            pictureImageView = itemView.findViewById(R.id.urlPictureImageView);
-            typeTextView = itemView.findViewById(R.id.typeTextView);
-            priceTextView = itemView.findViewById(R.id.priceTextView);
+            this.context = context;
         }
 
-        public void updateWithEstateDetails(Estate estate) {
+        public void updateUI(Estate estate, List<Photo> photoList) {
+            if(photoList.size() > 0) {
+                for (Photo photo : photoList) {
+                    if (photo != null) {
+                        if (photo.getEstateId() == estate.getId()) {
+                            Glide.with(context).load(photo.getUri().toString()).into(binding.urlPictureImageView);
+                        }
+                    }
+                }
+            } else {
+                binding.urlPictureImageView.setImageResource(R.drawable.ic_no_photo);
+            }
 
-            //TODO : Retrieve the list of photos using the property id
-            pictureImageView.setImageResource(R.drawable.ic_no_photo);
-            typeTextView.setText(estate.getType());
-            priceTextView.setText(estate.getPrice());
-
+            String type = estate.getType();
+            String type_upper = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
+            binding.typeTextView.setText(type_upper);
+            binding.priceTextView.setText(String.valueOf(estate.getPrice()));
         }
 
     }

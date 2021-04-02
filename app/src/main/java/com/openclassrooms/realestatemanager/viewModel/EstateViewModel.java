@@ -1,7 +1,11 @@
 package com.openclassrooms.realestatemanager.viewModel;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.openclassrooms.realestatemanager.model.Agent;
 import com.openclassrooms.realestatemanager.model.Estate;
@@ -11,7 +15,12 @@ import com.openclassrooms.realestatemanager.repository.EstateDataRepository;
 import com.openclassrooms.realestatemanager.repository.PhotoDataRepository;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class EstateViewModel extends ViewModel {
 
@@ -20,9 +29,11 @@ public class EstateViewModel extends ViewModel {
     private final EstateDataRepository estateDataSource;
     private final PhotoDataRepository photoDataSource;
     private final Executor executor;
+    private ExecutorService mExecutorService;
 
-    // DATA
-
+    private MutableLiveData<List<Estate>> estatesList = new MutableLiveData<>();
+    private MutableLiveData<Integer> selectedEstateId = new MutableLiveData<>();
+    private MutableLiveData<List<Uri>> uriList = new MutableLiveData<>();
 
     public EstateViewModel(AgentDataRepository agentDataSource, EstateDataRepository estateDataSource, PhotoDataRepository photoDataSource, Executor executor) {
         this.agentDataSource = agentDataSource;
@@ -31,57 +42,141 @@ public class EstateViewModel extends ViewModel {
         this.executor = executor;
     }
 
-
-    // ------------
-    // FOR AGENT
-    // ------------
+    // --- Agent ---
     public LiveData<List<Agent>> getAllAgent(){
         return agentDataSource.getAllAgent();
     }
 
-
-    // ------------
-    // FOR ESTATE
-    // ------------
-    public LiveData<Estate> getEstate(int id){
-        return estateDataSource.getEstate(id);
+    // --- Estate ---
+    public LiveData<List<Estate>> getAllEstate() {
+        return estateDataSource.getAllEstate();
     }
 
-    public LiveData<List<Estate>> getAllEstates(){
-        return estateDataSource.getAllEstates();
+    public LiveData<Estate> getEstate(int estateId) {
+        return estateDataSource.getEstate(estateId);
     }
 
-    public void insertEstate(Estate estate){
-        estateDataSource.insertEstate(estate);
+    public LiveData<List<Estate>> getEstateByCityAndCountry(String city, String countryCode) {
+        return estateDataSource.getEstateByCityAndCountry(city, countryCode);
     }
 
-    public void updateEstate(Estate estate){
-        estateDataSource.updateEstate(estate);
+    public LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query) {
+        return estateDataSource.getAllEstatesAccordingToUserSearch(query);
+    }
+
+    /**
+     * Creates a property in database and return a long that is the inserted row's id or -1L if the
+     * insert failed.
+     */
+    public long createEstate(final Estate estate) {
+        Callable<Long> insertCallable = new Callable<Long>() {
+            @Override
+            public Long call() throws Exception {
+                return estateDataSource.createEstate(estate);
+            }
+        };
+        long rowId = 0;
+
+        mExecutorService = Executors.newFixedThreadPool(1);
+        Future<Long> future = mExecutorService.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
     }
 
 
-    // ------------
-    // FOR PHOTO
-    // ------------
-    public LiveData<List<Photo>> getAllPhotos(){
-        return photoDataSource.getAllPhotos();
+    /**
+     * Updates a property saved in database and return an int that is the number of impacted rows.
+     */
+    public int updateEstate(final Estate estate) {
+        Callable<Integer> insertCallable = new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                return estateDataSource.updateEstate(estate);
+            }
+        };
+        int nbRows = 0;
+
+        mExecutorService = Executors.newFixedThreadPool(1);
+        Future<Integer> future = mExecutorService.submit(insertCallable);
+        try {
+            nbRows = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return nbRows;
     }
 
-    public LiveData<List<Photo>> getPhotos(int estate_id){
-        return photoDataSource.getPhotos(estate_id);
+    public void addEstateList(List<Estate> properties) {
+        estatesList.setValue(properties);
     }
 
-    public void insertPhoto(Photo photo){
-        photoDataSource.insertPhoto(photo);
+    public LiveData<List<Estate>> getEstateList() {
+        return estatesList;
     }
 
-    public void updateEstatePhoto(Photo photo){
-        photoDataSource.updateEstatePhoto(photo);
+    public void addSelectedEstateId(int estateId) {
+        selectedEstateId.setValue(estateId);
     }
 
-    public void deleteEstatePhoto(Photo photo){
-        photoDataSource.deleteEstatePhoto(photo);
+    public LiveData<Integer> getSelectedEstateId() {
+        return selectedEstateId;
     }
 
+    // --- PHOTO ---
+
+    // --- create ---
+    /**
+     * Creates a pictures in database and return a long that is the inserted row's id or -1L if the
+     * insert failed.
+     */
+    public long createPictures(final Photo photo) {
+        Callable<Long> insertCallable = new Callable<Long>() {
+            @Override
+            public Long call() throws Exception {
+                return photoDataSource.insertPhoto(photo);
+            }
+        };
+        long rowId = 0;
+
+        mExecutorService = Executors.newFixedThreadPool(1);
+        Future<Long> future = mExecutorService.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
+    }
+
+    // --- get ---
+    public LiveData<List<Photo>> getPhotos(int estateId) {
+        return photoDataSource.getPhotos(estateId);
+    }
+
+    public LiveData<Photo> getOnePicture(int estateId) {
+        return photoDataSource.getOnePhoto(estateId);
+    }
+
+    // --- delete ---
+    public void deletePhoto(final Photo photo) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                photoDataSource.deletePicture(photo);
+            }
+        });
+    }
+
+    public void addUriList(List<Uri> uriList) {
+        this.uriList.setValue(uriList);
+    }
+
+    public LiveData<List<Uri>> getUriList() {
+        return uriList;
+    }
 
 }

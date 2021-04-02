@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.repository;
 
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 import com.openclassrooms.realestatemanager.model.Estate;
@@ -15,21 +16,31 @@ public class EstateDataRepository {
         this.estateDao = estateDao;
     }
 
-    public LiveData<Estate> getEstate(int id){
-        return estateDao.getEstate(id);
+    // --- GET ---
+    public LiveData<Estate> getEstate(int estateId){
+        return estateDao.getEstate(estateId);
     }
 
-    public LiveData<List<Estate>> getAllEstates(){
-        return estateDao.getAllEstates();
+    public LiveData<List<Estate>> getAllEstate(){
+        return estateDao.getAllEstate();
     }
 
-    public void insertEstate(Estate estate){
-        estateDao.insertEstate(estate);
+    public LiveData<List<Estate>> getEstateByCityAndCountry(String city, String countryCode){
+        return estateDao.getEstateByCityAndCountry(city, countryCode);
     }
 
-    public void updateEstate(Estate estate){
-        estateDao.updateEstate(estate);
+    public LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query){
+        return estateDao.getAllEstatesAccordingToUserSearch(query);
     }
 
+    // --- CREATE ---
+    public long createEstate(Estate estate){
+        return estateDao.insertEstate(estate);
+    }
+
+    // --- UPDATE ---
+    public int updateEstate(Estate estate){
+        return estateDao.updateEstate(estate);
+    }
 
 }

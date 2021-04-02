@@ -11,6 +11,6 @@
             android:id="@+id/fragmentListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/estate_item"/>
+            tools:listitem="@layout/row_estate"/>
 
 </FrameLayout>

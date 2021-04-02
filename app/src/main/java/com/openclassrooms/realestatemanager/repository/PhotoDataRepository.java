@@ -9,32 +9,30 @@ import java.util.List;
 
 public class PhotoDataRepository {
 
-    private final PhotoDao photoDao;
+    private PhotoDao photoDao;
 
     public PhotoDataRepository(PhotoDao photoDao){
         this.photoDao = photoDao;
     }
 
-
-    public LiveData<List<Photo>> getAllPhotos(){
-        return photoDao.getAllPhotos();
+    // --- GET ---
+    public LiveData<List<Photo>> getPhotos(int estateId){
+        return photoDao.getPhotos(estateId);
     }
 
-    public LiveData<List<Photo>> getPhotos(int estate_id){
-        return photoDao.getPhotos(estate_id);
+    public LiveData<Photo> getOnePhoto(int estateId){
+        return photoDao.getOnePhoto(estateId);
     }
 
-    public void insertPhoto(Photo photo){
-        photoDao.insertPhoto(photo);
+    // --- CREATE ---
+    public long insertPhoto(Photo photo){
+        return photoDao.insertPhoto(photo);
     }
 
-    public void updateEstatePhoto(Photo photo){
-        photoDao.updateEstatePhoto(photo);
+    // --- DELETE ---
+    public void deletePicture(Photo photo){
+        photoDao.deletePhoto(photo);
     }
-
-    public void deleteEstatePhoto(Photo photo){
-        photoDao.deleteEstatePhoto(photo);
-    }
-
 
 }
+

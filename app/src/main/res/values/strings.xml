@@ -76,4 +76,16 @@
     <string name="transportation">Transportation</string>
     <string name="sold">Sold</string>
 
+    <string name="hour_format">%1$d-%2$d-%3$d</string>
+    <string name="code">Zip Code</string>
+    <string name="add_new_estate">Add a new estate</string>
+    <string name="edit_estate">Edit estate</string>
+    <string name="delete_photo">Delete Photo</string>
+    <string name="would_you_delete_picture">Confirm deleting the photo ?</string>
+    <string name="delete">delete</string>
+    <string name="save_success">"Save: success "</string>
+    <string name="save_failed">Save: failed</string>
+    <string name="update_success">Update is a success!</string>
+    <string name="update_failed">The update failed!</string>
+
 </resources>

@@ -13,7 +13,7 @@
         android:background="@color/colorPrimaryDark">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/search_price_card_view"
+            android:id="@+id/simulator_text_input_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -95,7 +95,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/search_type_card_view"
+            android:id="@+id/simulator_text_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -103,7 +103,7 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_price_card_view">
+            app:layout_constraintTop_toBottomOf="@+id/simulator_text_input_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -178,7 +178,7 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_type_card_view">
+            app:layout_constraintTop_toBottomOf="@+id/simulator_text_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -279,6 +279,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/search_number_room_chip_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -527,8 +528,30 @@
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/search_date_text_input_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:id="@+id/search_date_min_text_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/colorAccent"
+                    app:hintTextColor="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroup">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/search_date_min_text_input_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_date_max_text_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -541,13 +564,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup">
+                    app:layout_constraintTop_toBottomOf="@+id/search_date_min_text_input_layout">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/search_date_autocomplete_text_view"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/search_date_max_text_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#000" />
+                        android:textColor="@color/grey" />
+
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -586,7 +610,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/search_photo_input_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -601,11 +625,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/search_photo_text_view">
 
-                    <AutoCompleteTextView
+
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/search_photo_autocomplete_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#000" />
+                        android:textColor="@color/grey" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

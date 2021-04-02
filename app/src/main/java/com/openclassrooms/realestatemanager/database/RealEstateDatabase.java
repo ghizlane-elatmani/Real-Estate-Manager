@@ -8,6 +8,7 @@ import androidx.room.Database;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.openclassrooms.realestatemanager.database.dao.AgentDao;
@@ -16,8 +17,13 @@ import com.openclassrooms.realestatemanager.database.dao.PhotoDao;
 import com.openclassrooms.realestatemanager.model.Agent;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.model.Photo;
+import com.openclassrooms.realestatemanager.utils.Converters;
+
+import java.util.Date;
+import java.util.concurrent.Executors;
 
 @Database(entities = {Agent.class, Estate.class, Photo.class}, version = 1, exportSchema = false)
+@TypeConverters({Converters.class})
 public abstract class RealEstateDatabase extends RoomDatabase {
 
     // --- SINGLETON ---
@@ -64,10 +70,30 @@ public abstract class RealEstateDatabase extends RoomDatabase {
 
                 ContentValues contentValues2 = new ContentValues();
                 contentValues2.put("id", 2);
-                contentValues2.put("first_name", "Théa");
+                contentValues2.put("first_name", "Oliver");
                 contentValues2.put("last_name", "Queen");
-                contentValues2.put("mail", "théa_queen@gmail.com");
-                db.insert("agent", OnConflictStrategy.IGNORE, contentValues1);
+                contentValues2.put("mail", "oliver_queen@gmail.com");
+                db.insert("agent", OnConflictStrategy.IGNORE, contentValues2);
+
+                ContentValues estateValue1 = new ContentValues();
+                estateValue1.put("type", "loft");
+                estateValue1.put("price", 2575000);
+                estateValue1.put("surface", 200);
+                estateValue1.put("number_rooms", 4);
+                estateValue1.put("description", "Very nice apartment located on the 6th and last floor of 1399sq ft. Located in the heart of town and close to all amenities. It has 3 large bedrooms, 2 bathrooms and a large living room with a terrace overlooking a private park.");
+                estateValue1.put("address", "688 Thatcher Dr.Yonkers");
+                estateValue1.put("zipCode", 10701);
+                estateValue1.put("countryCode", "US");
+                estateValue1.put("lat", 40.970340);
+                estateValue1.put("lng", -73.878320);
+                estateValue1.put("city", -73.878320);
+                estateValue1.put("points_interest", -73.878320);
+                estateValue1.put("isSold", -73.878320);
+                estateValue1.put("entry_date", "");
+                estateValue1.put("date_sale", "");
+                estateValue1.put("agent_name", "Oliver Queen");
+                estateValue1.put("number_picture", 0);
+                db.insert("estate", OnConflictStrategy.IGNORE, estateValue1);
 
             }
         };

@@ -6,9 +6,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "estate", foreignKeys = @ForeignKey(entity = Agent.class,
-        parentColumns = "id",
-        childColumns = "agent_id"))
+@Entity(tableName = "estate")
 public class Estate {
 
     // --- Attribute ---
@@ -16,37 +14,46 @@ public class Estate {
     private int id;
     private String type;
     private int price;
-    private String address;
     private int surface;
     private int number_rooms;
     private String description;
-    private String url_picture;
+    private String address;
+    private int zipCode;
+    private String countryCode;
+    private double lat;
+    private double lng;
+    private String city;
     private String points_interest;
-    private String status;
-    private String entry_date;
-    private String date_sale;
-    private int agent_id;
+    private boolean isSold;
+    private Date entry_date;
+    private Date date_sale;
+    private String agent_name;
+    private int number_picture;
 
     // --- Constructor ---
     public Estate(){
 
     }
 
-    public Estate(String type, int price, String address, int surface, int number_rooms, String description, String url_picture, String points_interest, String status, String entry_date, String date_sale, int agent_id) {
+    public Estate(String type, int price, int surface, int number_rooms, String description, String address, int zipCode, String countryCode, double lat, double lng, String city, String points_interest, boolean isSold, Date entry_date, Date date_sale, String agent_name, int number_picture) {
         this.type = type;
         this.price = price;
-        this.address = address;
         this.surface = surface;
         this.number_rooms = number_rooms;
         this.description = description;
-        this.url_picture = url_picture;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.countryCode = countryCode;
+        this.lat = lat;
+        this.lng = lng;
+        this.city = city;
         this.points_interest = points_interest;
-        this.status = status;
+        this.isSold = isSold;
         this.entry_date = entry_date;
-        this.date_sale = null;
-        this.agent_id = agent_id;
+        this.date_sale = date_sale;
+        this.agent_name = agent_name;
+        this.number_picture = number_picture;
     }
-
 
     // --- Getters ---
     public int getId() {
@@ -58,9 +65,6 @@ public class Estate {
     public int getPrice() {
         return price;
     }
-    public String getAddress() {
-        return address;
-    }
     public int getSurface() {
         return surface;
     }
@@ -70,25 +74,42 @@ public class Estate {
     public String getDescription() {
         return description;
     }
-    public String getUrl_picture() {
-        return url_picture;
+    public String getAddress() {
+        return address;
+    }
+    public int getZipCode() {
+        return zipCode;
+    }
+    public String getCountryCode() {
+        return countryCode;
+    }
+    public double getLat() {
+        return lat;
+    }
+    public double getLng() {
+        return lng;
+    }
+    public String getCity() {
+        return city;
     }
     public String getPoints_interest() {
         return points_interest;
     }
-    public String getStatus() {
-        return status;
+    public boolean isSold() {
+        return isSold;
     }
-    public String getEntry_date() {
+    public Date getEntry_date() {
         return entry_date;
     }
-    public String getDate_sale() {
+    public Date getDate_sale() {
         return date_sale;
     }
-    public int getAgent_id() {
-        return agent_id;
+    public String getAgent_name() {
+        return agent_name;
     }
-
+    public int getNumber_picture() {
+        return number_picture;
+    }
 
     // --- Setters ---
     public void setId(int id) {
@@ -100,9 +121,6 @@ public class Estate {
     public void setPrice(int price) {
         this.price = price;
     }
-    public void setAddress(String address) {
-        this.address = address;
-    }
     public void setSurface(int surface) {
         this.surface = surface;
     }
@@ -112,24 +130,41 @@ public class Estate {
     public void setDescription(String description) {
         this.description = description;
     }
-    public void setUrl_picture(String url_picture) {
-        this.url_picture = url_picture;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
+    }
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+    public void setCity(String city) {
+        this.city = city;
     }
     public void setPoints_interest(String points_interest) {
         this.points_interest = points_interest;
     }
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
-    public void setEntry_date(String entry_date) {
+    public void setEntry_date(Date entry_date) {
         this.entry_date = entry_date;
     }
-    public void setDate_sale(String date_sale) {
+    public void setDate_sale(Date date_sale) {
         this.date_sale = date_sale;
     }
-    public void setAgent_id(int agent_id) {
-        this.agent_id = agent_id;
+    public void setAgent_name(String agent_name) {
+        this.agent_name = agent_name;
     }
-
+    public void setNumber_picture(int number_picture) {
+        this.number_picture = number_picture;
+    }
 
 }

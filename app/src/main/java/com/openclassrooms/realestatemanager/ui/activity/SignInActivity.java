@@ -20,7 +20,6 @@ import com.openclassrooms.realestatemanager.model.Agent;
 import com.openclassrooms.realestatemanager.viewModel.EstateViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.openclassrooms.realestatemanager.utils.Constant.AGENT_ID;
@@ -59,7 +58,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void configure() {
-        ArrayAdapter<Agent> arrayAdapter = new ArrayAdapter(this, R.layout.option_item, agentList);
+        ArrayAdapter<Agent> arrayAdapter = new ArrayAdapter(this, R.layout.row_options, agentList);
         binding.signInAutocompleteTextView.setAdapter(arrayAdapter);
         binding.signInAutocompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
