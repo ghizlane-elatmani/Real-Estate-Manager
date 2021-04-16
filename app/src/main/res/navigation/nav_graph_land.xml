@@ -2,10 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_navigation_land.xml"
-    app:startDestination="@id/detailsFragment2">
+    app:startDestination="@id/detailsFragment">
 
     <fragment
-        android:id="@+id/detailsFragment2"
+        android:id="@+id/detailsFragment"
         android:name="com.openclassrooms.realestatemanager.ui.fragment.DetailFragment"
         android:label="DetailsFragment2" >
         <argument
