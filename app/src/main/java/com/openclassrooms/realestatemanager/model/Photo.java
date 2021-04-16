@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager.model;
 
+import android.net.Uri;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "photos", foreignKeys = @ForeignKey(entity = Estate.class,
@@ -13,7 +16,7 @@ public class Photo {
     // --- Attribute ---
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String uri;
+    private Uri uri;
     private String label;
     @ColumnInfo(name = "estate_id")
     private int estateId;
@@ -22,7 +25,13 @@ public class Photo {
     public Photo() {
     }
 
-    public Photo(String uri, String label, int estateId) {
+    @Ignore
+    public Photo(Uri uri, String label){
+        this.uri  = uri;
+        this.label = label;
+    }
+
+    public Photo(Uri uri, String label, int estateId) {
         this.uri = uri;
         this.label = label;
         this.estateId = estateId;
@@ -32,7 +41,7 @@ public class Photo {
     public int getId() {
         return id;
     }
-    public String getUri() {
+    public Uri getUri() {
         return uri;
     }
     public String getLabel() {
@@ -46,7 +55,7 @@ public class Photo {
     public void setId(int id) {
         this.id = id;
     }
-    public void setUri(String uri) {
+    public void setUri(Uri uri) {
         this.uri = uri;
     }
     public void setLabel(String label) {

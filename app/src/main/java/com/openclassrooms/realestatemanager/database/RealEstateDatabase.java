@@ -17,13 +17,9 @@ import com.openclassrooms.realestatemanager.database.dao.PhotoDao;
 import com.openclassrooms.realestatemanager.model.Agent;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.model.Photo;
-import com.openclassrooms.realestatemanager.utils.Converters;
-
-import java.util.Date;
-import java.util.concurrent.Executors;
 
 @Database(entities = {Agent.class, Estate.class, Photo.class}, version = 1, exportSchema = false)
-@TypeConverters({Converters.class})
+@TypeConverters({DataConverters.class})
 public abstract class RealEstateDatabase extends RoomDatabase {
 
     // --- SINGLETON ---
@@ -83,7 +79,6 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue1.put("description", "Very nice apartment located on the 6th and last floor of 1399sq ft. Located in the heart of town and close to all amenities. It has 3 large bedrooms, 2 bathrooms and a large living room with a terrace overlooking a private park.");
                 estateValue1.put("address", "688 Thatcher Dr.Yonkers");
                 estateValue1.put("zipCode", 10701);
-                estateValue1.put("countryCode", "US");
                 estateValue1.put("lat", 40.970340);
                 estateValue1.put("lng", -73.878320);
                 estateValue1.put("city", -73.878320);

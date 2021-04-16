@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.model.Photo;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 
@@ -76,7 +76,9 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
             String type = estate.getType();
             String type_upper = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
             binding.typeTextView.setText(type_upper);
-            binding.priceTextView.setText(String.valueOf(estate.getPrice()));
+
+            String number = String.valueOf(estate.getPrice());
+            binding.priceTextView.setText("$ " + Utils.formatNumberCurrency(number));
         }
 
     }

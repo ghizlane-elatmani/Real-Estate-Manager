@@ -36,8 +36,8 @@ public interface EstateDao {
     @Query("SELECT * FROM estate WHERE id = :id")
     LiveData<Estate> getEstate(int id);
 
-    @Query("SELECT * FROM estate WHERE city = :city AND countryCode = :countryCode")
-    LiveData<List<Estate>> getEstateByCityAndCountry(String city, String countryCode);
+    @Query("SELECT * FROM estate WHERE city = :city")
+    LiveData<List<Estate>> getEstateByCityAndCountry(String city);
 
     @RawQuery(observedEntities = {Estate.class, Photo.class})
     LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query);

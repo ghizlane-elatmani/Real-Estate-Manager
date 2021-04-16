@@ -87,5 +87,17 @@
     <string name="save_failed">Save: failed</string>
     <string name="update_success">Update is a success!</string>
     <string name="update_failed">The update failed!</string>
+    <string name="unknown_date">Unknown Date !</string>
+    <string name="title_dialog_picture">Fetch Picture</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="dialog_text">Do you want to take a photo from the gallery or take it directly with the camera?</string>
+    <string name="save_the_picture">Save</string>
+    <string name="description_photo">Description</string>
+    <string name="delete_date">Delete date</string>
+    <string name="please_caption">Please enter image\' description</string>
+    <string name="permission_storage">We need this permissions to access pictures saved in your device and to allow you to take photos with your camera.</string>
+    <string name="warning_description_image">Enter image\'s description</string>
+    <string name="save">Save</string>
 
 </resources>

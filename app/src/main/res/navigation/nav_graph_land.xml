@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation_land.xml"
+    app:startDestination="@id/detailsFragment2">
+
+    <fragment
+        android:id="@+id/detailsFragment2"
+        android:name="com.openclassrooms.realestatemanager.ui.fragment.DetailFragment"
+        android:label="DetailsFragment2" >
+        <argument
+            android:name="estateID"
+            android:defaultValue="1L"
+            app:argType="long" />
+    </fragment>
+</navigation>

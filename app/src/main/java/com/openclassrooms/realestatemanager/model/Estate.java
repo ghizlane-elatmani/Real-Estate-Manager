@@ -19,10 +19,9 @@ public class Estate {
     private String description;
     private String address;
     private int zipCode;
-    private String countryCode;
+    private String city;
     private double lat;
     private double lng;
-    private String city;
     private String points_interest;
     private boolean isSold;
     private Date entry_date;
@@ -35,7 +34,7 @@ public class Estate {
 
     }
 
-    public Estate(String type, int price, int surface, int number_rooms, String description, String address, int zipCode, String countryCode, double lat, double lng, String city, String points_interest, boolean isSold, Date entry_date, Date date_sale, String agent_name, int number_picture) {
+    public Estate(String type, int price, int surface, int number_rooms, String description, String address, int zipCode, String city, double lat, double lng, String points_interest, boolean isSold, Date entry_date, Date date_sale, String agent_name, int number_picture) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -43,10 +42,9 @@ public class Estate {
         this.description = description;
         this.address = address;
         this.zipCode = zipCode;
-        this.countryCode = countryCode;
+        this.city = city;
         this.lat = lat;
         this.lng = lng;
-        this.city = city;
         this.points_interest = points_interest;
         this.isSold = isSold;
         this.entry_date = entry_date;
@@ -80,17 +78,14 @@ public class Estate {
     public int getZipCode() {
         return zipCode;
     }
-    public String getCountryCode() {
-        return countryCode;
+    public String getCity() {
+        return city;
     }
     public double getLat() {
         return lat;
     }
     public double getLng() {
         return lng;
-    }
-    public String getCity() {
-        return city;
     }
     public String getPoints_interest() {
         return points_interest;
@@ -136,17 +131,14 @@ public class Estate {
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCity(String city) {
+        this.city = city;
     }
     public void setLat(double lat) {
         this.lat = lat;
     }
     public void setLng(double lng) {
         this.lng = lng;
-    }
-    public void setCity(String city) {
-        this.city = city;
     }
     public void setPoints_interest(String points_interest) {
         this.points_interest = points_interest;

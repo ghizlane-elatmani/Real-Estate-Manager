@@ -25,8 +25,8 @@ public class EstateDataRepository {
         return estateDao.getAllEstate();
     }
 
-    public LiveData<List<Estate>> getEstateByCityAndCountry(String city, String countryCode){
-        return estateDao.getEstateByCityAndCountry(city, countryCode);
+    public LiveData<List<Estate>> getEstateByCityAndCountry(String city){
+        return estateDao.getEstateByCityAndCountry(city);
     }
 
     public LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query){

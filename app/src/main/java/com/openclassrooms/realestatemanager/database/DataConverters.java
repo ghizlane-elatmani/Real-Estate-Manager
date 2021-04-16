@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.utils;
+package com.openclassrooms.realestatemanager.database;
 
 import android.net.Uri;
 
@@ -6,7 +6,7 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
-public class Converters {
+public class DataConverters {
 
     @TypeConverter
     public static Date fromTimestamp(Long value) {

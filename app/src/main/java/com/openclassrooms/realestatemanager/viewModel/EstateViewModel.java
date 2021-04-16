@@ -29,7 +29,7 @@ public class EstateViewModel extends ViewModel {
     private final EstateDataRepository estateDataSource;
     private final PhotoDataRepository photoDataSource;
     private final Executor executor;
-    private ExecutorService mExecutorService;
+    private ExecutorService executorService;
 
     private MutableLiveData<List<Estate>> estatesList = new MutableLiveData<>();
     private MutableLiveData<Integer> selectedEstateId = new MutableLiveData<>();
@@ -47,7 +47,6 @@ public class EstateViewModel extends ViewModel {
         return agentDataSource.getAllAgent();
     }
 
-    // --- Estate ---
     public LiveData<List<Estate>> getAllEstate() {
         return estateDataSource.getAllEstate();
     }
@@ -56,8 +55,8 @@ public class EstateViewModel extends ViewModel {
         return estateDataSource.getEstate(estateId);
     }
 
-    public LiveData<List<Estate>> getEstateByCityAndCountry(String city, String countryCode) {
-        return estateDataSource.getEstateByCityAndCountry(city, countryCode);
+    public LiveData<List<Estate>> getEstateByCityAndCountry(String city) {
+        return estateDataSource.getEstateByCityAndCountry(city);
     }
 
     public LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query) {
@@ -75,16 +74,16 @@ public class EstateViewModel extends ViewModel {
                 return estateDataSource.createEstate(estate);
             }
         };
-        long rowId = 0;
+        long row_id = 0;
 
-        mExecutorService = Executors.newFixedThreadPool(1);
-        Future<Long> future = mExecutorService.submit(insertCallable);
+        executorService = Executors.newFixedThreadPool(1);
+        Future<Long> future = executorService.submit(insertCallable);
         try {
-            rowId = future.get();
+            row_id = future.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return rowId;
+        return row_id;
     }
 
 
@@ -100,8 +99,8 @@ public class EstateViewModel extends ViewModel {
         };
         int nbRows = 0;
 
-        mExecutorService = Executors.newFixedThreadPool(1);
-        Future<Integer> future = mExecutorService.submit(insertCallable);
+        executorService = Executors.newFixedThreadPool(1);
+        Future<Integer> future = executorService.submit(insertCallable);
         try {
             nbRows = future.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -126,9 +125,6 @@ public class EstateViewModel extends ViewModel {
         return selectedEstateId;
     }
 
-    // --- PHOTO ---
-
-    // --- create ---
     /**
      * Creates a pictures in database and return a long that is the inserted row's id or -1L if the
      * insert failed.
@@ -142,8 +138,8 @@ public class EstateViewModel extends ViewModel {
         };
         long rowId = 0;
 
-        mExecutorService = Executors.newFixedThreadPool(1);
-        Future<Long> future = mExecutorService.submit(insertCallable);
+        executorService = Executors.newFixedThreadPool(1);
+        Future<Long> future = executorService.submit(insertCallable);
         try {
             rowId = future.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -152,7 +148,6 @@ public class EstateViewModel extends ViewModel {
         return rowId;
     }
 
-    // --- get ---
     public LiveData<List<Photo>> getPhotos(int estateId) {
         return photoDataSource.getPhotos(estateId);
     }
@@ -161,7 +156,6 @@ public class EstateViewModel extends ViewModel {
         return photoDataSource.getOnePhoto(estateId);
     }
 
-    // --- delete ---
     public void deletePhoto(final Photo photo) {
         executor.execute(new Runnable() {
             @Override

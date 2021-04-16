@@ -10,4 +10,5 @@
     <color name="black">#000000</color>
 
     <color name="colorSelectedEstate">#EA8C45</color>
+    <color name="colorValidationSave">#00FF00</color>color
 </resources>
