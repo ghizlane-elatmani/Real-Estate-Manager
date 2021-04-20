@@ -176,24 +176,27 @@
 
                 <TextView
                     android:id="@+id/detail_address_text_view"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/open_sans_semibold"
                     android:text="@string/address"
                     android:textColor="#333333"
                     app:drawableStartCompat="@drawable/ic_location"
+                    app:layout_constraintEnd_toStartOf="@+id/detail_static_maps_image_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title_location_text_view" />
 
                 <TextView
                     android:id="@+id/detail_interest_text_view"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/open_sans_semibold"
@@ -201,6 +204,7 @@
                     android:textColor="#333333"
                     app:drawableStartCompat="@drawable/ic_location_city"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/detail_static_maps_image_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_address_text_view" />
 
@@ -228,6 +232,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/location_card_view">
@@ -273,10 +279,10 @@
                     android:layout_marginEnd="16dp"
                     android:drawablePadding="8dp"
                     android:text="@string/price"
-                    android:textColor="@color/white"
+                    android:textColor="#333333"
+                    app:drawableStartCompat="@drawable/ic_money"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_additional_info_text_view"
-                    app:drawableStartCompat="@drawable/ic_money" />
+                    app:layout_constraintTop_toBottomOf="@+id/title_additional_info_text_view" />
 
                 <TextView
                     android:id="@+id/detail_status_text_view"
@@ -287,7 +293,7 @@
                     android:drawableStart="@drawable/ic_key"
                     android:drawablePadding="8dp"
                     android:text="@string/available_or_sold"
-                    android:textColor="@color/white"
+                    android:textColor="#333333"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_type_text_view" />
 
@@ -300,9 +306,9 @@
                     android:drawablePadding="8dp"
                     android:text="@string/entry_date"
                     android:textColor="@color/white"
+                    app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_status_text_view"
-                    app:drawableStartCompat="@drawable/ic_calendar" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_status_text_view" />
 
                 <TextView
                     android:id="@+id/detail_sold_date_text_view"
@@ -314,10 +320,10 @@
                     android:drawablePadding="8dp"
                     android:text="@string/sold_date"
                     android:textColor="@color/white"
+                    app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_status_text_view"
-                    app:drawableStartCompat="@drawable/ic_calendar" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_status_text_view" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -17,7 +17,7 @@ public class EstateDataRepository {
     }
 
     // --- GET ---
-    public LiveData<Estate> getEstate(int estateId){
+    public LiveData<Estate> getEstate(long estateId){
         return estateDao.getEstate(estateId);
     }
 

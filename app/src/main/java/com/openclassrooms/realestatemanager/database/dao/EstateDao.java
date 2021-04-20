@@ -34,7 +34,7 @@ public interface EstateDao {
     LiveData<List<Estate>> getAllEstate();
 
     @Query("SELECT * FROM estate WHERE id = :id")
-    LiveData<Estate> getEstate(int id);
+    LiveData<Estate> getEstate(long id);
 
     @Query("SELECT * FROM estate WHERE city = :city")
     LiveData<List<Estate>> getEstateByCityAndCountry(String city);

@@ -30,12 +30,12 @@ public interface PhotoDao {
 
     // --- QUERY ---
     @Query("SELECT * FROM photos WHERE estate_id = :estate_id")
-    LiveData<List<Photo>> getPhotos(int estate_id);
+    LiveData<List<Photo>> getPhotos(long estate_id);
 
     @Query("SELECT * FROM photos WHERE estate_id = :estate_id LIMIT 1")
-    LiveData<Photo> getOnePhoto(int estate_id);
+    LiveData<Photo> getOnePhoto(long estate_id);
 
     @Query("SELECT * FROM photos WHERE estate_id = :estate_id")
-    Cursor getPicturesWithCursor(int estate_id);
+    Cursor getPicturesWithCursor(long estate_id);
 
 }

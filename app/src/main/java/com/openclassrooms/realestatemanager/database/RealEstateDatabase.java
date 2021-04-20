@@ -81,9 +81,9 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue1.put("zipCode", 10701);
                 estateValue1.put("lat", 40.970340);
                 estateValue1.put("lng", -73.878320);
-                estateValue1.put("city", -73.878320);
-                estateValue1.put("points_interest", -73.878320);
-                estateValue1.put("isSold", -73.878320);
+                estateValue1.put("city", "NY");
+                estateValue1.put("points_interest", "Transportation, school");
+                estateValue1.put("isSold", "Available");
                 estateValue1.put("entry_date", "");
                 estateValue1.put("date_sale", "");
                 estateValue1.put("agent_name", "Oliver Queen");

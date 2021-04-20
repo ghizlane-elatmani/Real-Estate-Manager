@@ -11,7 +11,7 @@ public class Estate {
 
     // --- Attribute ---
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String type;
     private int price;
     private int surface;
@@ -54,7 +54,7 @@ public class Estate {
     }
 
     // --- Getters ---
-    public int getId() {
+    public long getId() {
         return id;
     }
     public String getType() {
@@ -107,7 +107,7 @@ public class Estate {
     }
 
     // --- Setters ---
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     public void setType(String type) {

@@ -16,11 +16,11 @@ public class PhotoDataRepository {
     }
 
     // --- GET ---
-    public LiveData<List<Photo>> getPhotos(int estateId){
+    public LiveData<List<Photo>> getPhotos(long estateId){
         return photoDao.getPhotos(estateId);
     }
 
-    public LiveData<Photo> getOnePhoto(int estateId){
+    public LiveData<Photo> getOnePhoto(long estateId){
         return photoDao.getOnePhoto(estateId);
     }
 

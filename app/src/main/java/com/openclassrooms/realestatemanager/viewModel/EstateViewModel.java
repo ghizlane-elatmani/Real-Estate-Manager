@@ -32,7 +32,7 @@ public class EstateViewModel extends ViewModel {
     private ExecutorService executorService;
 
     private MutableLiveData<List<Estate>> estatesList = new MutableLiveData<>();
-    private MutableLiveData<Integer> selectedEstateId = new MutableLiveData<>();
+    private MutableLiveData<Long> selectedEstateId = new MutableLiveData<>();
     private MutableLiveData<List<Uri>> uriList = new MutableLiveData<>();
 
     public EstateViewModel(AgentDataRepository agentDataSource, EstateDataRepository estateDataSource, PhotoDataRepository photoDataSource, Executor executor) {
@@ -47,11 +47,12 @@ public class EstateViewModel extends ViewModel {
         return agentDataSource.getAllAgent();
     }
 
+    // --- Estate ---
     public LiveData<List<Estate>> getAllEstate() {
         return estateDataSource.getAllEstate();
     }
 
-    public LiveData<Estate> getEstate(int estateId) {
+    public LiveData<Estate> getEstate(long estateId) {
         return estateDataSource.getEstate(estateId);
     }
 
@@ -63,10 +64,6 @@ public class EstateViewModel extends ViewModel {
         return estateDataSource.getAllEstatesAccordingToUserSearch(query);
     }
 
-    /**
-     * Creates a property in database and return a long that is the inserted row's id or -1L if the
-     * insert failed.
-     */
     public long createEstate(final Estate estate) {
         Callable<Long> insertCallable = new Callable<Long>() {
             @Override
@@ -86,10 +83,6 @@ public class EstateViewModel extends ViewModel {
         return row_id;
     }
 
-
-    /**
-     * Updates a property saved in database and return an int that is the number of impacted rows.
-     */
     public int updateEstate(final Estate estate) {
         Callable<Integer> insertCallable = new Callable<Integer>() {
             @Override
@@ -117,18 +110,15 @@ public class EstateViewModel extends ViewModel {
         return estatesList;
     }
 
-    public void addSelectedEstateId(int estateId) {
+    public void addSelectedEstateId(long estateId) {
         selectedEstateId.setValue(estateId);
     }
 
-    public LiveData<Integer> getSelectedEstateId() {
+    public LiveData<Long> getSelectedEstateId() {
         return selectedEstateId;
     }
 
-    /**
-     * Creates a pictures in database and return a long that is the inserted row's id or -1L if the
-     * insert failed.
-     */
+    // --- Photo --
     public long createPictures(final Photo photo) {
         Callable<Long> insertCallable = new Callable<Long>() {
             @Override
@@ -148,11 +138,11 @@ public class EstateViewModel extends ViewModel {
         return rowId;
     }
 
-    public LiveData<List<Photo>> getPhotos(int estateId) {
+    public LiveData<List<Photo>> getPhotos(long estateId) {
         return photoDataSource.getPhotos(estateId);
     }
 
-    public LiveData<Photo> getOnePicture(int estateId) {
+    public LiveData<Photo> getOnePicture(long estateId) {
         return photoDataSource.getOnePhoto(estateId);
     }
 

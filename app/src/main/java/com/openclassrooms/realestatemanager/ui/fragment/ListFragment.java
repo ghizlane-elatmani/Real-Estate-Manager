@@ -13,7 +13,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +51,7 @@ public class ListFragment extends Fragment {
     private List<Photo> photoList;
     private Activity activity;
     private String origin;
-    private int estateId;
+    private long estateId;
 
     // views, binding
     FragmentListBinding binding;
@@ -75,9 +77,7 @@ public class ListFragment extends Fragment {
         photoList = new ArrayList<>();
         estateList = new ArrayList<>();
 
-        adapter = new EstateAdapter(getContext(), estateList, photoList);
-        binding.fragmentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        binding.fragmentListRecyclerView.setAdapter(adapter);
+        configureRecyclerView();
 
         return binding.getRoot();
     }
@@ -106,7 +106,7 @@ public class ListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         NavController controller = Navigation.findNavController(activity, R.id.main_nav_host_fragment);
-        if (item.getItemId() == R.id.action_add) {
+        if (item.getItemId() == R.id.action_edit) {
             Bundle args = new Bundle();
             args.putLong("estateID", estateId);
             controller.navigate(R.id.addOrEditFragment, args);
@@ -126,6 +126,31 @@ public class ListFragment extends Fragment {
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(activity);
         viewModel = new ViewModelProvider((FragmentActivity) activity, viewModelFactory).get(EstateViewModel.class);
+    }
+
+    private void configureRecyclerView() {
+        adapter = new EstateAdapter(estateList, photoList);
+        adapter.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EstateAdapter.EstateViewHolder holder = (EstateAdapter.EstateViewHolder) view.getTag();
+                int position = holder.getAdapterPosition();
+                long id = estateList.get(position).getId();
+                estateId = id;
+                viewModel.addSelectedEstateId(estateId);
+                if (!ListFragment.this.getResources().getBoolean(R.bool.isTabletLand)) {
+                    ListFragment.this.openDetailsFragment(id);
+                } else {
+                    ListFragment.this.openDetailsFragmentLand(id);
+                }
+            }
+        });
+        if (getResources().getBoolean(R.bool.isTablet) && !getResources().getBoolean(R.bool.isTabletLand)) {
+            binding.fragmentListRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false));
+        } else {
+            binding.fragmentListRecyclerView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
+        }
+        binding.fragmentListRecyclerView.setAdapter(adapter);
     }
 
 
@@ -150,6 +175,15 @@ public class ListFragment extends Fragment {
         });
     }
 
+    private void getSelectedEstateId() {
+        viewModel.getSelectedEstateId().observe(getViewLifecycleOwner(), new Observer<Long>() {
+            @Override
+            public void onChanged(Long estateID) {
+                estateId = estateID;
+            }
+        });
+    }
+
     private void initList(List<Estate> estates) {
         estateList.clear();
         estateList.addAll(estates);
@@ -158,7 +192,7 @@ public class ListFragment extends Fragment {
         }
     }
 
-    private void getOnePicture(int estateId) {
+    private void getOnePicture(long estateId) {
         viewModel.getOnePicture(estateId).observe(getViewLifecycleOwner(), new Observer<Photo>() {
             @Override
             public void onChanged(Photo photo) {
@@ -174,10 +208,17 @@ public class ListFragment extends Fragment {
     }
 
 
-    private void openDetailsFragment(int estateId) {
-//        NavController mController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-//        PropertyListFragmentDirections.ActionPropertyListFragmentToDetailsFragment action = PropertyListFragmentDirections.actionPropertyListFragmentToDetailsFragment(realEstateId);
-//        mController.navigate(action);
+    private void openDetailsFragment(long realEstateId) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
+        //navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment());
+    }
+
+    private void openDetailsFragmentLand(long realEstateId) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
+        navController.popBackStack();
+        Bundle args = new Bundle();
+        args.putLong("estateID", realEstateId);
+        navController.navigate(R.id.detailsFragment, args);
     }
 
 

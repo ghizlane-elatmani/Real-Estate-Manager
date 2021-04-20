@@ -36,7 +36,15 @@
         android:id="@+id/detailFragment"
         android:name="com.openclassrooms.realestatemanager.ui.fragment.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="estateId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_detailsFragment_to_addPropertyFragment"
+            app:destination="@id/addOrEditFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/simulatorFragment"
         android:name="com.openclassrooms.realestatemanager.ui.fragment.SimulatorFragment"

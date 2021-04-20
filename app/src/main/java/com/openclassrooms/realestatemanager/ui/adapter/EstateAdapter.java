@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,12 +20,12 @@ import java.util.List;
 
 public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateViewHolder> {
 
-    private Context context;
     private List<Estate> estateList;
     private List<Photo> photoList;
+    private View.OnClickListener onClickListener;
+    public int index = -1;
 
-    public EstateAdapter(Context context, List<Estate> estateList, List<Photo> photoList){
-        this.context = context;
+    public EstateAdapter(List<Estate> estateList, List<Photo> photoList){
         this.estateList = estateList;
         this.photoList = photoList;
     }
@@ -38,12 +40,31 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
 
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, final int position) {
+        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(v);
+                index = position;
+                EstateAdapter.this.notifyDataSetChanged();
+            }
+        });
+
         holder.updateUI(estateList.get(position), photoList);
+
+        if(index == position){
+            holder.changeUI(R.color.colorAccent, R.color.white);
+        }else{
+            holder.changeUI(R.color.white, R.color.colorAccent);
+        }
     }
 
     @Override
     public int getItemCount() {
         return estateList.size();
+    }
+
+    public void setOnItemClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
 
@@ -79,6 +100,11 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
 
             String number = String.valueOf(estate.getPrice());
             binding.priceTextView.setText("$ " + Utils.formatNumberCurrency(number));
+        }
+
+        public void changeUI(int color, int colorText){
+            binding.getRoot().setBackgroundColor(context.getResources().getColor(color));
+            binding.priceTextView.setTextColor(context.getResources().getColor(colorText));
         }
 
     }
