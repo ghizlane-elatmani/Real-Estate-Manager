@@ -99,5 +99,8 @@
     <string name="permission_storage">We need this permissions to access pictures saved in your device and to allow you to take photos with your camera.</string>
     <string name="warning_description_image">Enter image\'s description</string>
     <string name="save">Save</string>
+    <string name="please_address">Please enter address</string>
+    <string name="please_zip_code">Please enter zip code</string>
+    <string name="please_city">Please enter city</string>
 
 </resources>

@@ -19,7 +19,7 @@ public class Photo {
     private Uri uri;
     private String label;
     @ColumnInfo(name = "estate_id")
-    private int estateId;
+    private long estateId;
 
     // --- Constructor ---
     public Photo() {
@@ -31,7 +31,7 @@ public class Photo {
         this.label = label;
     }
 
-    public Photo(Uri uri, String label, int estateId) {
+    public Photo(Uri uri, String label, long estateId) {
         this.uri = uri;
         this.label = label;
         this.estateId = estateId;
@@ -47,7 +47,7 @@ public class Photo {
     public String getLabel() {
         return label;
     }
-    public int getEstateId() {
+    public long getEstateId() {
         return estateId;
     }
 
@@ -61,7 +61,7 @@ public class Photo {
     public void setLabel(String label) {
         this.label = label;
     }
-    public void setEstateId(int estateId) {
+    public void setEstateId(long estateId) {
         this.estateId = estateId;
     }
 

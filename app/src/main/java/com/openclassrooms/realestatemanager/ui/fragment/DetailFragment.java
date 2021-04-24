@@ -1,9 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,7 +48,6 @@ public class DetailFragment extends Fragment {
     private SliderAdapterDetail adapter;
     private Activity activity;
     private EstateViewModel viewModel;
-    // private GoogleMap googleMap;
     private double lat;
     private double lng;
 
@@ -86,8 +84,6 @@ public class DetailFragment extends Fragment {
         configureViewModel();
         configureRecyclerView();
         getEstateDetail();
-        // binding.fragmentDetailsMapView.onCreate(savedInstanceState);
-        // binding.fragmentDetailsMapView.getMapAsync(this);
     }
 
     @Override
@@ -98,28 +94,13 @@ public class DetailFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_edit) {
+        if (item.getItemId() == R.id.action_detail_edit) {
             openAddFragmentToEditRealEstate(estate_id);
         } else {
             return super.onOptionsItemSelected(item);
         }
         return true;
     }
-
-
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        this.googleMap = googleMap;
-//        this.googleMap.getUiSettings().setMapToolbarEnabled(false);
-//        this.googleMap.setOnMapClickListener(latLng -> {
-//        });
-//    }
-//
-//    private void addPropertyPositionOnMap() {
-//        LatLng latLng = new LatLng(lat, lng);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-//        googleMap.addMarker(new MarkerOptions().position(latLng));
-//    }
 
 
     private void configureViewModel() {
@@ -170,61 +151,45 @@ public class DetailFragment extends Fragment {
         binding.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
         binding.sliderView.setIndicatorSelectedColor(Color.WHITE);
         binding.sliderView.setIndicatorUnselectedColor(Color.GRAY);
-        binding.sliderView.setScrollTimeInSec(4); //set scroll delay in seconds :
         binding.sliderView.startAutoCycle();
     }
 
     private void initDetails(Estate estate) {
         binding.detailDescriptionTextView.setText(estate.getDescription());
+        Log.i("init detail", estate.getDescription());
         binding.detailSurfaceTextView.setText(estate.getSurface() + "m²");
         binding.detailNumberBedroomTextView.setText(String.valueOf(estate.getNumber_rooms()));
         String address = estate.getAddress() + ", " + estate.getZipCode() + ", " + estate.getCity();
+        Log.i("init detail", address);
         binding.detailAddressTextView.setText(address);
         binding.detailInterestTextView.setText(estate.getPoints_interest());
         binding.detailTypeTextView.setText(estate.getType());
         String price = String.valueOf(estate.getPrice());
         binding.detailPriceTextView.setText(Utils.formatNumberCurrency(price));
-
-        // TODO :
-//        binding.detailStatusTextView.setText(estate.);
+       // binding.detailStatusTextView.setText(estate.);
 //        binding.detailEntryDateTextView.setText(estate.getEntry_date());
 //        binding.detailSoldDateTextView.setText(estate.getDate_sale());
 
-        lat = estate.getLat();
-        lng = estate.getLng();
-        // addEstateOnMap();
     }
 
 
-    private void openAddFragmentToEditRealEstate(long realEstateId) {
+    private void openAddFragmentToEditRealEstate(long estateID) {
         if (!getResources().getBoolean(R.bool.isTabletLand)) {
-            NavController mController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
-            //mController.navigate(.actionDetailsFragmentToAddPropertyFragment().setRealEstateId(realEstateId));
-        } else {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
+            navController.navigate(DetailFragmentDirections.actionDetailsFragmentToAddPropertyFragment());
+        } else {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment2);
             Bundle args = new Bundle();
-            args.putLong("estateId", realEstateId);
+            args.putLong("estateID", estateID);
             navController.navigate(R.id.addOrEditFragment, args);
         }
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // googleMap = null;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //binding.fragmentDetailsMapView.getMapAsync(this);
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding.sliderView.setSliderAdapter(null);
         adapter = null;
         binding = null;
     }

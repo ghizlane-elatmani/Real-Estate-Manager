@@ -94,9 +94,13 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                 binding.urlPictureImageView.setImageResource(R.drawable.ic_no_photo);
             }
 
-            String type = estate.getType();
-            String type_upper = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
-            binding.typeTextView.setText(type_upper);
+            if(estate.getType() != null){
+                String type = estate.getType();
+                String type_upper = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
+                binding.typeTextView.setText(type_upper);
+            } else {
+                binding.typeTextView.setText(estate.getType());
+            }
 
             String number = String.valueOf(estate.getPrice());
             binding.priceTextView.setText("$ " + Utils.formatNumberCurrency(number));

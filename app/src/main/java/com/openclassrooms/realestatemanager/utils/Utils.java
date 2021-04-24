@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
+import com.google.android.material.chip.Chip;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -62,4 +64,27 @@ public class Utils {
         return formatter.format(Double.parseDouble(number));
     }
 
+    public static String getEstatePointInterest(Chip addPointInterestSchoolChip, Chip addPointInterestShopChip, Chip addPointInterestParkChip, Chip addPointInterestTransportationChip) {
+        String amenitiesInput = "(";
+        if (addPointInterestSchoolChip.isChecked()) {
+            amenitiesInput +="'School'";
+        }
+        if (addPointInterestShopChip.isChecked()) {
+            if (!amenitiesInput.equals("("))
+                amenitiesInput += ", ";
+            amenitiesInput += "'Shop'";
+        }
+        if (addPointInterestParkChip.isChecked()) {
+            if (!amenitiesInput.equals("("))
+                amenitiesInput += ", ";
+            amenitiesInput += "'Park'";
+        }
+        if (addPointInterestTransportationChip.isChecked()) {
+            if (!amenitiesInput.equals("("))
+                amenitiesInput += ", ";
+            amenitiesInput += "'Transportation'";
+        }
+        amenitiesInput += ")";
+        return amenitiesInput;
+    }
 }

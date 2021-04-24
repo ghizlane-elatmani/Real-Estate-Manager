@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -29,16 +32,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -64,11 +71,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
+import static com.openclassrooms.realestatemanager.App.CHANNEL_1_ID;
 import static com.openclassrooms.realestatemanager.utils.Constant.ESTATE_ID;
 import static com.openclassrooms.realestatemanager.utils.Constant.IMAGE_CAPTURE_CODE;
 import static com.openclassrooms.realestatemanager.utils.Constant.IMAGE_PICK_CODE;
@@ -103,11 +112,10 @@ public class AddOrEditFragment extends Fragment {
     private Activity activity;
     private EstateViewModel viewModel;
 
+    private NotificationManagerCompat notificationManager;
+
     // views, binding
     private FragmentAddBinding binding;
-
-    // permissions
-    String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
     public AddOrEditFragment() {
         // Required empty public constructor
@@ -147,26 +155,25 @@ public class AddOrEditFragment extends Fragment {
         else
             toolbar.setTitle(getString(R.string.edit_estate));
 
-        // geocode
-        //TODO : verify network for geocode
-
         // init view model, recyclerView ect...
         configureViewModel();
         configureRecyclerView();
+
+        notificationManager = NotificationManagerCompat.from(getContext());
 
         if (estateId != 0)
             fetchDetailsAndPicturesAccordingToRealEstateId(estateId);
     }
 
 
-    // configuring ViewModel
+    // configure ViewModel
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(activity);
         viewModel = new ViewModelProvider((FragmentActivity) activity, viewModelFactory).get(EstateViewModel.class);
     }
 
 
-    // configures observers to fetch the estate' data
+    // configure observers to fetch the estate' data
     private void fetchDetailsAndPicturesAccordingToRealEstateId(int estate_id) {
         viewModel.getEstate(estate_id).observe(getViewLifecycleOwner(), new Observer<Estate>() {
             @Override
@@ -183,51 +190,51 @@ public class AddOrEditFragment extends Fragment {
         });
     }
 
-    // Sets the LiveData values in mProperty and binds mProperty's attributes into the dedicated views.
+    // Sets the LiveData values in estate and binds estate's attributes into the dedicated views.
     private void updateUiWithEstateData(Estate estate1) {
         estate = estate1;
 
-        if(estate.getType() != null){
+        if (estate.getType() != null) {
             binding.addTypeTextInputEditText.setText(estate.getType());
             type = binding.addTypeTextInputEditText.getText().toString();
         }
 
-        if(estate.getDescription() != "") {
+        if (!estate.getDescription().equals("")) {
             binding.addDescriptionTextInputEditText.setText(estate.getDescription());
             description = binding.addDescriptionTextInputEditText.getText().toString();
         }
 
-        if(estate.getPrice() != 0) {
+        if (estate.getPrice() != 0) {
             binding.addPriceTextInputEditText.setText(estate.getType());
             price = Integer.parseInt(binding.addPriceTextInputEditText.getText().toString());
         }
 
-        if(estate.getSurface() != 0){
+        if (estate.getSurface() != 0) {
             binding.addSurfaceTextInputEditText.setText(estate.getSurface());
             surface = Integer.parseInt(binding.addSurfaceTextInputEditText.getText().toString());
         }
 
-        if(estate.getNumber_rooms() != 0){
+        if (estate.getNumber_rooms() != 0) {
             binding.addNumberRoomsTextInputEditText.setText(estate.getNumber_rooms());
             number_rooms = Integer.parseInt(binding.addNumberRoomsTextInputEditText.getText().toString());
         }
 
-        if(estate.getZipCode() != 0){
+        if (estate.getZipCode() != 0) {
             binding.addZipCodeTextInputEditText.setText(estate.getZipCode());
             zipCode = Integer.parseInt(binding.addZipCodeTextInputEditText.getText().toString());
         }
 
-        if(estate.getAddress() != null){
+        if (estate.getAddress() != null) {
             binding.addAddressTextInputEditText.setText(estate.getAddress());
             address = binding.addAddressTextInputEditText.getText().toString();
         }
 
-        if(estate.getCity() != null){
+        if (estate.getCity() != null) {
             binding.addCityTextInputEditText.setText(estate.getCity());
             city = binding.addCityTextInputEditText.getText().toString();
         }
 
-        if(estate.getAgent_name() != null){
+        if (estate.getAgent_name() != null || !estate.getAgent_name().equals("")) {
             binding.addAgentTextInputEditText.setText(estate.getAgent_name());
             agent_name = binding.addAgentTextInputEditText.getText().toString();
         }
@@ -238,7 +245,7 @@ public class AddOrEditFragment extends Fragment {
         if (estate.getDate_sale() != null)
             binding.addSoldDateTextInputEditText.setText(DateUtils.convertDateToString(estate.getDate_sale(), activity));
 
-        if (estate.getPoints_interest() != null) {
+        if (estate.getPoints_interest() != null || !estate.getPoints_interest().equals("")) {
             if (estate.getPoints_interest().contains("School"))
                 binding.addPointInterestSchoolChip.setChecked(true);
 
@@ -305,8 +312,12 @@ public class AddOrEditFragment extends Fragment {
         binding.addPhotoRecyclerView.setAdapter(adapter);
     }
 
-    //Recovers the user's input, verifies if the input is not empty and sets the values into the corresponding fields.
+    // fetch the user's input, verifies if the input is not empty and sets the values into the corresponding fields.
     private void getTheUserInput() {
+        // estate' type
+        if (!TextUtils.isEmpty(binding.addTypeTextInputEditText.getText()))
+            type = binding.addTypeTextInputEditText.getText().toString();
+
         // estate' price
         if (!TextUtils.isEmpty(binding.addPriceTextInputEditText.getText()))
             price = Integer.parseInt(binding.addPriceTextInputEditText.getText().toString());
@@ -333,22 +344,22 @@ public class AddOrEditFragment extends Fragment {
 
         // estate' city
         if (!TextUtils.isEmpty(binding.addCityTextInputEditText.getText())) {
-            address = binding.addCityTextInputEditText.getText().toString();
+            city = binding.addCityTextInputEditText.getText().toString();
         }
 
         // estate' points of interest
-        //TODO
+        points_interest = Utils.getEstatePointInterest(binding.addPointInterestSchoolChip, binding.addPointInterestShopChip, binding.addPointInterestParkChip, binding.addPointInterestTransportationChip);
 
-        // estate' availability
-        //TODO
+        if (!TextUtils.isEmpty(binding.addEntryDateTextInputEditText.getText()))
+            entry_date = DateUtils.convertStringToDate(binding.addEntryDateTextInputEditText.getText().toString());
+
+
         if (!TextUtils.isEmpty(binding.addSoldDateTextInputEditText.getText())) {
             date_sale = DateUtils.convertStringToDate(binding.addSoldDateTextInputEditText.getText().toString());
             // if a sale date is filled then the property is considered sold
             isSold = true;
         } else
             isSold = false;
-
-        // points_interest = Utils.getUserAmenitiesChoice(binding.addPointInterestSchoolChip, binding.addPointInterestShopChip, binding.addPointInterestParkChip, binding.addPointInterestTransportationChip);
 
         // If the set of fields relative to the address are filled then it calls the method getLocation.
         if (address != null && zipCode != 0 && city != null) {
@@ -359,11 +370,12 @@ public class AddOrEditFragment extends Fragment {
     }
 
     /**
-     * Updates mProperty that is the current Property with the fetched user's input.
+     * Updates estate that is the current Estate with the fetched user's input.
      */
-    private void updateEstate(String type, int price, int surface, int number_rooms, String description, String address,
-                              int zipCode, String city, double lat, double lng, String points_interest, boolean isSold,
-                              Date entry_date, Date date_sale, String agent_name, int number_picture) {
+    private void updateEstate (String type,int price, int surface, int number_rooms, String
+            description, String address,
+                               int zipCode, String city,double lat, double lng, String points_interest,boolean isSold,
+                               Date entry_date, Date date_sale, String agent_name,int number_picture){
         estate.setType(type);
         estate.setPrice(price);
         estate.setSurface(surface);
@@ -382,7 +394,7 @@ public class AddOrEditFragment extends Fragment {
         estate.setNumber_picture(number_picture);
     }
 
-    public void onClick(){
+    public void onClick () {
         binding.addEntryDateTextInputLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -390,7 +402,7 @@ public class AddOrEditFragment extends Fragment {
             }
         });
 
-        binding.addSoldDateTextInputLayout.setOnClickListener(new View.OnClickListener() {
+        binding.addSoldDateTextInputEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayDatePickerAndUpdateUi(binding.addSoldDateTextInputEditText);
@@ -423,9 +435,9 @@ public class AddOrEditFragment extends Fragment {
     /**
      * Creates the selected pictures in database with the current estate's Id for attribute.
      */
-    private void savePictureInDb(int estate_id) {
+    private void savePictureInDb ( long estate_id){
         for (Photo photo : photoList) {
-            photo.setEstateId(estateId);
+            photo.setEstateId(estate_id);
             viewModel.createPictures(photo);
         }
     }
@@ -433,11 +445,10 @@ public class AddOrEditFragment extends Fragment {
     /**
      * Uses Geocoder object to fetch the latitude and the longitude from an address.
      */
-    private void getLocation(String address) {
+    private void getLocation (String address){
         Geocoder geocoder = new Geocoder(requireActivity(), Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocationName(address, 1);
-            Log.i("Location", "Location : Lat :" + addresses.get(0).getLatitude() + " / Long" + addresses.get(0).getLongitude());
             for (Address address1 : addresses) {
                 lat = address1.getLatitude();
                 lng = address1.getLongitude();
@@ -448,7 +459,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
     // Updates a property in database with the user's input
-    private void updateRealEstateWithNewValues() {
+    private void updateRealEstateWithNewValues () {
         getTheUserInput();
         number_picture = photoList.size();
         updateEstate(type, price, surface, number_rooms, description, address, zipCode, city, lat, lng,
@@ -468,57 +479,93 @@ public class AddOrEditFragment extends Fragment {
     }
 
     //Creates a property in database with the user's input.
-    private void createNewRealEstateFromInputValues() {
+    private void createNewRealEstateFromInputValues () {
         getTheUserInput();
         number_picture = photoList.size();
-//
-//        int rowId = (int) viewModel.createEstate(new Estate(type, price, surface, number_rooms, description, address, zipCode, lat, lng,
-//                city, points_interest, isSold, entry_date, date_sale, agent_name, number_picture));
-//
-//        if (rowId != -1) {
-//            savePictureInDb(rowId);
-//            Snackbar.make(activity.findViewById(R.id.main_nav_host_fragment), getString(R.string.save_success),
-//                    Snackbar.LENGTH_LONG).show();
-//            Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment).popBackStack();
-//        } else
-//            Snackbar.make(activity.findViewById(R.id.main_nav_host_fragment), getString(R.string.save_failed), Snackbar.LENGTH_LONG).show();
 
+        long rowId = viewModel.createEstate(new Estate(type, price, surface, number_rooms, description, address, zipCode, city, lat, lng,
+                points_interest, isSold, entry_date, date_sale, agent_name, number_picture));
+
+        if (rowId != -1) {
+            savePictureInDb(rowId);
+            sendOnChannel();
+            Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment).popBackStack();
+        } else
+            Snackbar.make(activity.findViewById(R.id.main_nav_host_fragment), getString(R.string.save_failed), Snackbar.LENGTH_LONG).show();
+
+    }
+
+    private void sendOnChannel() {
+        String title = "Real Estate Manager";
+        String message = "The real estate has been successfully added to the list";
+        Notification notification = new NotificationCompat.Builder(getContext(), CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_circle_notifications)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManager.notify(1, notification);
     }
 
 
     //Displays a DatePicker to select a date and sets the selected value in the corresponding view.
-    private void displayDatePickerAndUpdateUi(final View view) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year1, int month1, int day1) {
+    private void displayDatePickerAndUpdateUi ( final View view){
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.clear();
 
-                //TODO: if view == id then ...... else ........
-                binding.addSoldDateTextInputEditText.setText(AddOrEditFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
+        final long today = MaterialDatePicker.todayInUtcMilliseconds();
 
-            }
-        }, year, month, day);
-        datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.delete_date), new DialogInterface.OnClickListener() {
+        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText("Select a Date");
+        builder.setSelection(today);
+        final MaterialDatePicker materialDatePicker = builder.build();
+
+        binding.addEntryDateTextInputLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                binding.addSoldDateTextInputEditText.setText(null);
+            public void onClick(View view) {
+                materialDatePicker.show(getParentFragmentManager(), "DATE_PICKER");
             }
         });
-        datePickerDialog.show();
+
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                int id = view.getId();
+                if (id == R.id.add_entry_date_text_input_edit_text) {
+                    String dateString = DateFormat.format("dd/MM/yyyy", new Date(selection)).toString();
+                    binding.addEntryDateTextInputEditText.setText(dateString);
+                } else if (id == R.id.add_sold_date_text_input_edit_text) {
+                    String dateString = DateFormat.format("dd/MM/yyyy", new Date(selection)).toString();
+                    binding.addEntryDateTextInputEditText.setText(dateString);
+                }
+            }
+        });
     }
 
 
-    private boolean verifyAddressInputForGeoCoding() {
-        // TODO: verify address for geocoding
-        return false;
+    private boolean verifyAddressInputForGeoCoding () {
+        if (TextUtils.isEmpty(binding.addAddressTextInputEditText.getText())
+                || (TextUtils.isEmpty(binding.addZipCodeTextInputEditText.getText())
+                || TextUtils.isEmpty(binding.addCityTextInputEditText.getText()))) {
+
+            if (TextUtils.isEmpty(binding.addAddressTextInputEditText.getText()))
+                binding.addAddressTextInputEditText.setError(getString(R.string.please_address));
+
+            if (TextUtils.isEmpty(binding.addZipCodeTextInputEditText.getText()))
+                binding.addZipCodeTextInputEditText.setError(getString(R.string.please_zip_code));
+
+            if (TextUtils.isEmpty(binding.addCityTextInputEditText.getText()))
+                binding.addCityTextInputEditText.setError(getString(R.string.please_city));
+            return false;
+
+        } else
+            return true;
     }
 
 
     @AfterPermissionGranted(READ_AND_WRITE_EXTERNAL_STORAGE_AND_CAMERA)
-    private void getPermissionsExternalStorageAndCamera() {
+    private void getPermissionsExternalStorageAndCamera () {
         String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(activity, perms)) {
             EasyPermissions.requestPermissions(this, getString(R.string.permission_storage),
@@ -530,7 +577,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
     // Displays a AlertDialog to propose to the user to add to the choice either a photo from camera or gallery
-    private void showDialogToFetchPictures() {
+    private void showDialogToFetchPictures () {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_fetch_photo,
                 (ConstraintLayout) getActivity().findViewById(R.id.validationLayoutDialog)
@@ -560,7 +607,7 @@ public class AddOrEditFragment extends Fragment {
             }
         });
 
-        if(alertDialog.getWindow() != null){
+        if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
 
@@ -568,7 +615,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
     //Creates the file to save the taken photo by user.
-    private File createPhotoFile() throws IOException {
+    private File createPhotoFile () throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timestamp + "_";
         File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -579,7 +626,7 @@ public class AddOrEditFragment extends Fragment {
 
 
     // Creates an intent to allow the user to take a photo with his device's camera and with the right camera application.
-    private void openCameraForPhoto() {
+    private void openCameraForPhoto () {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
             File photoFile = null;
@@ -597,7 +644,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
     //Creates an intent to allow the user to pick a photo in memory with the right application.
-    private void pickPhotoFromGallery() {
+    private void pickPhotoFromGallery () {
         Uri collection;
         collection = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         Intent intentGallery = new Intent(Intent.ACTION_PICK);
@@ -608,7 +655,7 @@ public class AddOrEditFragment extends Fragment {
 
 
     // Displays a MaterialAlertDialog to ask the user to enter a caption for the chosen photo.
-    private void savePictureCaption(final String uri) {
+    private void savePictureCaption ( final String uri){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_photo_validation,
                 (ConstraintLayout) getActivity().findViewById(R.id.validationLayoutDialog)
@@ -642,7 +689,7 @@ public class AddOrEditFragment extends Fragment {
             }
         });
 
-        if(alertDialog.getWindow() != null){
+        if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
 
@@ -652,14 +699,15 @@ public class AddOrEditFragment extends Fragment {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
+                                             @NonNull int[] grantResults){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE) {
             savePictureCaption(currentPhotoPath);
@@ -671,7 +719,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
 
-    private String getRealPathFromURI(Uri contentUri) {
+    private String getRealPathFromURI (Uri contentUri){
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = activity.getContentResolver().query(contentUri, projection, null, null, null);
         if (cursor != null) {
@@ -687,7 +735,7 @@ public class AddOrEditFragment extends Fragment {
 
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView () {
         // sets adapters and listeners to null to avoid memory leaks.
         binding.addPhotoRecyclerView.setAdapter(null);
         adapter.setOnClickListener(null);
@@ -696,7 +744,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState (@NonNull Bundle outState){
         outState.putString("photoFile", currentPhotoPath);
         super.onSaveInstanceState(outState);
     }

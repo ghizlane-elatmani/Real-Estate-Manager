@@ -208,13 +208,14 @@ public class ListFragment extends Fragment {
     }
 
 
-    private void openDetailsFragment(long realEstateId) {
+    private void openDetailsFragment(long estate_id) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
-        //navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment());
+        ListFragmentDirections.ActionListFragmentToDetailFragment action = ListFragmentDirections.actionListFragmentToDetailFragment(estate_id);
+        navController.navigate(action);
     }
 
     private void openDetailsFragmentLand(long realEstateId) {
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment2);
         navController.popBackStack();
         Bundle args = new Bundle();
         args.putLong("estateID", realEstateId);

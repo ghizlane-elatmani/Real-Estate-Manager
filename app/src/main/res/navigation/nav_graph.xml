@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/listFragment" />
         <argument
             android:name="origin"
             android:defaultValue="listFragment"
@@ -38,7 +39,7 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
-            android:name="estateId"
+            android:name="estateID"
             app:argType="long" />
         <action
             android:id="@+id/action_detailsFragment_to_addPropertyFragment"
