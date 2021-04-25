@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getPermissionsAccessLocation();
             }
         } else if (itemId == R.id.menu_drawer_simulator) {
-            navController.navigate(R.id.simulatorFragment);
-            binding.mainDrawerLayout.close();
+            startActivity(new Intent(MainActivity.this, SimulatorActivity.class));
         }
         return true;
     }

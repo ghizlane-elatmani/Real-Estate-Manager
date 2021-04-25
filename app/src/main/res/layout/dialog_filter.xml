@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_filter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="FILTER"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/typeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Type :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/typeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/typeTextView"
+        app:layout_constraintTop_toTopOf="@+id/typeTextView">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_type_duplex_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="duplex" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_type_lofts_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lofts" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_type_penthouse_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="penthouse" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_type_manor_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="manor" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/priceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Price :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup2" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/priceSliderRange"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/priceTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/priceTextView"
+        app:layout_constraintTop_toTopOf="@+id/priceTextView"
+        app:thumbColor="@color/colorPrimary"
+        app:thumbElevation="4dp"
+        app:thumbRadius="10dp"
+        app:tickColor="@android:color/transparent"
+        app:trackColorActive="@color/colorAccent"
+        app:trackColorInactive="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/minPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$ 0"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/priceSliderRange"
+        app:layout_constraintTop_toBottomOf="@+id/priceSliderRange" />
+
+    <TextView
+        android:id="@+id/maxPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$ 150 000 000"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/priceSliderRange"
+        app:layout_constraintTop_toBottomOf="@+id/priceSliderRange" />
+
+    <TextView
+        android:id="@+id/surfaceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Surface :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minPriceTextView" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/surfaceSliderRange"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:stepSize="1"
+        app:layout_constraintBottom_toBottomOf="@+id/surfaceTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/surfaceTextView"
+        app:layout_constraintTop_toTopOf="@+id/surfaceTextView"
+        app:thumbColor="@color/colorPrimary"
+        app:thumbElevation="4dp"
+        app:thumbRadius="10dp"
+        app:tickColor="@android:color/transparent"
+        app:trackColorActive="@color/colorAccent"
+        app:trackColorInactive="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/minSurfaceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 m²"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/surfaceSliderRange"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceSliderRange" />
+
+    <TextView
+        android:id="@+id/maxSurfaceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="500 m²"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/surfaceSliderRange"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceSliderRange" />
+
+    <TextView
+        android:id="@+id/roomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Nb room :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minSurfaceTextView" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/numberRoomSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:value="2"
+        android:valueFrom="0"
+        android:valueTo="10"
+        android:stepSize="1"
+        app:layout_constraintBottom_toBottomOf="@+id/roomTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/roomTextView"
+        app:layout_constraintTop_toTopOf="@+id/roomTextView"
+        app:thumbColor="@color/colorPrimary"
+        app:thumbElevation="4dp"
+        app:thumbRadius="10dp"
+        app:tickColor="@android:color/transparent"
+        app:trackColorActive="@color/colorAccent"
+        app:trackColorInactive="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/photoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Nb photo :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roomTextView" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/numberPhotoSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:value="2"
+        android:valueFrom="0"
+        android:valueTo="10"
+        android:stepSize="1"
+        app:layout_constraintBottom_toBottomOf="@+id/photoTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/photoTextView"
+        app:layout_constraintTop_toTopOf="@+id/photoTextView"
+        app:thumbColor="@color/colorPrimary"
+        app:thumbElevation="4dp"
+        app:thumbRadius="10dp"
+        app:tickColor="@android:color/transparent"
+        app:trackColorActive="@color/colorAccent"
+        app:trackColorInactive="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Location :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoTextView" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_location_text_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="City"
+        android:textColorHint="@color/grey"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/locationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/locationTextView"
+        app:layout_constraintTop_toTopOf="@+id/locationTextView">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dialog_location_text_input_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Availability :"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_location_text_input_layout" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/availabilityChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView"
+        app:layout_constraintTop_toTopOf="@+id/dateTextView">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_available_duplex_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/available" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_sold_lofts_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sold" />
+
+    </com.google.android.material.chip.ChipGroup>
+    
+
+</androidx.constraintlayout.widget.ConstraintLayout>

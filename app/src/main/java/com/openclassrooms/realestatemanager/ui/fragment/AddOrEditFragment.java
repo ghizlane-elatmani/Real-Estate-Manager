@@ -452,6 +452,8 @@ public class AddOrEditFragment extends Fragment {
             for (Address address1 : addresses) {
                 lat = address1.getLatitude();
                 lng = address1.getLongitude();
+
+                Log.i("Lat, Lng", lat + ", " + lng);
             }
         } catch (IOException e) {
             e.printStackTrace();
