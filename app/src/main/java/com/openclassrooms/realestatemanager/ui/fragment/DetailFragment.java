@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.RequestManager;
+import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailBinding;
 import com.openclassrooms.realestatemanager.injection.Injection;
@@ -29,6 +31,7 @@ import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.model.Photo;
 import com.openclassrooms.realestatemanager.ui.adapter.SliderAdapterDetail;
+import com.openclassrooms.realestatemanager.utils.DateUtils;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.EstateViewModel;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -43,6 +46,8 @@ public class DetailFragment extends Fragment {
 
     // variables
     private FragmentDetailBinding binding;
+    private String GOOGLE_MAP_API_KEY = BuildConfig.API_KEY;
+    private RequestManager glide;
     private long estate_id;
     private List<Photo> photoList;
     private SliderAdapterDetail adapter;
@@ -166,10 +171,21 @@ public class DetailFragment extends Fragment {
         binding.detailTypeTextView.setText(estate.getType());
         String price = String.valueOf(estate.getPrice());
         binding.detailPriceTextView.setText(Utils.formatNumberCurrency(price));
-       // binding.detailStatusTextView.setText(estate.);
-//        binding.detailEntryDateTextView.setText(estate.getEntry_date());
-//        binding.detailSoldDateTextView.setText(estate.getDate_sale());
+        //binding.detailStatusTextView.setText(estate.get);
+        binding.detailEntryDateTextView.setText(DateUtils.convertDateToString(estate.getEntry_date(), getContext()));
+        binding.detailSoldDateTextView.setText(DateUtils.convertDateToString(estate.getDate_sale(), getContext()));
 
+        // TODO: fix null pointer exception...
+        /**
+         glide.load("https://maps.googleapis.com/maps/api/staticmap?" +
+         "center=" + estate.getLat() + "," + estate.getLng() +
+         "&zoom=14" +
+         "&size=200x200" +
+         "&scale=2" +
+         "&maptype=terrain" +
+         "&key=" + GOOGLE_MAP_API_KEY)
+         .centerCrop().into(binding.detailStaticMapsImageView);
+         **/
     }
 
 
