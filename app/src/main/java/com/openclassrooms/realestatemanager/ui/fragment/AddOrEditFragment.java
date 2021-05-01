@@ -7,6 +7,7 @@ import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -78,6 +79,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
 import static com.openclassrooms.realestatemanager.App.CHANNEL_1_ID;
+import static com.openclassrooms.realestatemanager.R.style.ThemeOverlay_App_DatePicker;
 import static com.openclassrooms.realestatemanager.utils.Constant.ESTATE_ID;
 import static com.openclassrooms.realestatemanager.utils.Constant.IMAGE_CAPTURE_CODE;
 import static com.openclassrooms.realestatemanager.utils.Constant.IMAGE_PICK_CODE;
@@ -395,14 +397,14 @@ public class AddOrEditFragment extends Fragment {
     }
 
     public void onClick () {
-        binding.addEntryDateTextInputLayout.setOnClickListener(new View.OnClickListener() {
+        binding.entryDateImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayDatePickerAndUpdateUi(binding.addEntryDateTextInputEditText);
             }
         });
 
-        binding.addSoldDateTextInputEditText.setOnClickListener(new View.OnClickListener() {
+        binding.dateSoldImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayDatePickerAndUpdateUi(binding.addSoldDateTextInputEditText);
@@ -512,37 +514,36 @@ public class AddOrEditFragment extends Fragment {
 
 
     //Displays a DatePicker to select a date and sets the selected value in the corresponding view.
-    private void displayDatePickerAndUpdateUi ( final View view){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.clear();
-
-        final long today = MaterialDatePicker.todayInUtcMilliseconds();
-
-        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
-        builder.setTitleText("Select a Date");
-        builder.setSelection(today);
-        final MaterialDatePicker materialDatePicker = builder.build();
-
-        binding.addEntryDateTextInputLayout.setOnClickListener(new View.OnClickListener() {
+    private void displayDatePickerAndUpdateUi (final View view){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onClick(View view) {
-                materialDatePicker.show(getParentFragmentManager(), "DATE_PICKER");
-            }
-        });
-
-        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-            @Override
-            public void onPositiveButtonClick(Long selection) {
+            public void onDateSet(DatePicker datePicker, int year1, int month1, int day1) {
                 int id = view.getId();
                 if (id == R.id.add_entry_date_text_input_edit_text) {
-                    String dateString = DateFormat.format("dd/MM/yyyy", new Date(selection)).toString();
-                    binding.addEntryDateTextInputEditText.setText(dateString);
+                    binding.addEntryDateTextInputEditText.setText(AddOrEditFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
                 } else if (id == R.id.add_sold_date_text_input_edit_text) {
-                    String dateString = DateFormat.format("dd/MM/yyyy", new Date(selection)).toString();
-                    binding.addEntryDateTextInputEditText.setText(dateString);
+                    binding.addSoldDateTextInputEditText.setText(AddOrEditFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
+                }
+            }
+        }, year, month, day);
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Delete Date", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int id = view.getId();
+                if (id == R.id.add_entry_date_text_input_edit_text) {
+                    binding.addEntryDateTextInputEditText.setText(null);
+                } else if (id == R.id.add_sold_date_text_input_edit_text) {
+                    binding.addSoldDateTextInputEditText.setText(null);
                 }
             }
         });
+        datePickerDialog.show();
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.GREEN);
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
     }
 
 

@@ -43,9 +43,9 @@ public interface EstateDao {
     LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query);
 
     @Query("SELECT * FROM estate WHERE id = :id")
-    Cursor getEstateWithCursor(int id);
+    Cursor getEstateWithCursor(long id);
 
     @Query("SELECT * FROM estate")
-    Cursor getEstateWithCursor();
+    Cursor getAllEstateWithCursor();
 
 }

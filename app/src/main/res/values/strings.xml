@@ -102,5 +102,6 @@
     <string name="please_address">Please enter address</string>
     <string name="please_zip_code">Please enter zip code</string>
     <string name="please_city">Please enter city</string>
+    <string name="no_result">No result</string>
 
 </resources>

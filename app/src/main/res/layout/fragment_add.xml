@@ -228,7 +228,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_entry_date_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
@@ -236,7 +236,7 @@
             android:textColorHint="@color/grey"
             app:boxStrokeColor="@color/colorAccent"
             app:hintTextColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/entry_date_image_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_city_text_input_layout">
 
@@ -249,10 +249,22 @@
                 android:textColor="@color/grey" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ImageButton
+            android:id="@+id/entry_date_image_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_calendar_button"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintBottom_toBottomOf="@+id/add_entry_date_text_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_entry_date_text_input_layout" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_sold_date_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
@@ -260,7 +272,7 @@
             android:textColorHint="@color/grey"
             app:boxStrokeColor="@color/colorAccent"
             app:hintTextColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/date_sold_image_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_entry_date_text_input_layout">
 
@@ -272,6 +284,18 @@
                 android:hint="Sold Date"
                 android:textColor="@color/grey" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/date_sold_image_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_calendar_button"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintBottom_toBottomOf="@+id/add_sold_date_text_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_sold_date_text_input_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_agent_text_input_layout"

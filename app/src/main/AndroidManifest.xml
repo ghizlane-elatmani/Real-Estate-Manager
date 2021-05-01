@@ -35,6 +35,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB_hk9V6dRZAmA6-R1bUyDqiUfZ3YVIvWs" />
 
+        <provider
+            android:name=".provider.EstateContentProvider"
+            android:authorities="com.openclassrooms.realestatemanager"
+            android:exported="true"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
