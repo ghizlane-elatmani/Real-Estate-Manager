@@ -32,7 +32,12 @@
         android:id="@+id/addOrEditFragment"
         android:name="com.openclassrooms.realestatemanager.ui.fragment.AddOrEditFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add">
+        <argument
+            android:name="realEstateID"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.openclassrooms.realestatemanager.ui.fragment.DetailFragment"

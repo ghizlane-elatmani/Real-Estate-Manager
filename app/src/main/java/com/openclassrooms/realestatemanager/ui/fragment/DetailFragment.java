@@ -192,7 +192,7 @@ public class DetailFragment extends Fragment {
     private void openAddFragmentToEditRealEstate(long estateID) {
         if (!getResources().getBoolean(R.bool.isTabletLand)) {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
-            navController.navigate(DetailFragmentDirections.actionDetailsFragmentToAddPropertyFragment());
+            navController.navigate(DetailFragmentDirections.actionDetailsFragmentToAddPropertyFragment().setRealEstateID(estateID));
         } else {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment2);
             Bundle args = new Bundle();

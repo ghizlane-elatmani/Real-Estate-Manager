@@ -43,6 +43,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -108,7 +109,7 @@ public class AddOrEditFragment extends Fragment {
 
     private List<Photo> photoList;
     private String currentPhotoPath;
-    private int estateId;
+    private long estateId;
     private AddPhotoAdapter adapter;
 
     private Activity activity;
@@ -127,7 +128,9 @@ public class AddOrEditFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
-            estateId = getArguments().getInt(ESTATE_ID);
+            estateId = getArguments().getLong(ESTATE_ID);
+
+        Log.i("EditFragment", "estateID:" + estateId);
 
         photoList = new ArrayList<>();
 
@@ -176,7 +179,7 @@ public class AddOrEditFragment extends Fragment {
 
 
     // configure observers to fetch the estate' data
-    private void fetchDetailsAndPicturesAccordingToRealEstateId(int estate_id) {
+    private void fetchDetailsAndPicturesAccordingToRealEstateId(long estate_id) {
         viewModel.getEstate(estate_id).observe(getViewLifecycleOwner(), new Observer<Estate>() {
             @Override
             public void onChanged(@Nullable Estate estate) {
@@ -207,22 +210,22 @@ public class AddOrEditFragment extends Fragment {
         }
 
         if (estate.getPrice() != 0) {
-            binding.addPriceTextInputEditText.setText(estate.getType());
+            binding.addPriceTextInputEditText.setText(Integer.toString(estate.getPrice()));
             price = Integer.parseInt(binding.addPriceTextInputEditText.getText().toString());
         }
 
         if (estate.getSurface() != 0) {
-            binding.addSurfaceTextInputEditText.setText(estate.getSurface());
+            binding.addSurfaceTextInputEditText.setText(Integer.toString(estate.getSurface()));
             surface = Integer.parseInt(binding.addSurfaceTextInputEditText.getText().toString());
         }
 
         if (estate.getNumber_rooms() != 0) {
-            binding.addNumberRoomsTextInputEditText.setText(estate.getNumber_rooms());
+            binding.addNumberRoomsTextInputEditText.setText(Integer.toString(estate.getNumber_rooms()));
             number_rooms = Integer.parseInt(binding.addNumberRoomsTextInputEditText.getText().toString());
         }
 
         if (estate.getZipCode() != 0) {
-            binding.addZipCodeTextInputEditText.setText(estate.getZipCode());
+            binding.addZipCodeTextInputEditText.setText(Integer.toString(estate.getZipCode()));
             zipCode = Integer.parseInt(binding.addZipCodeTextInputEditText.getText().toString());
         }
 
@@ -354,7 +357,6 @@ public class AddOrEditFragment extends Fragment {
 
         if (!TextUtils.isEmpty(binding.addEntryDateTextInputEditText.getText()))
             entry_date = DateUtils.convertStringToDate(binding.addEntryDateTextInputEditText.getText().toString());
-
 
         if (!TextUtils.isEmpty(binding.addSoldDateTextInputEditText.getText())) {
             date_sale = DateUtils.convertStringToDate(binding.addSoldDateTextInputEditText.getText().toString());

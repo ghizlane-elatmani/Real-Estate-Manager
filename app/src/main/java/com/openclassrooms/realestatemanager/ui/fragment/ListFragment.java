@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.FragmentListBinding;
@@ -169,8 +170,7 @@ public class ListFragment extends Fragment {
         viewModel.getEstateList().observe(getViewLifecycleOwner(), new Observer<List<Estate>>() {
             @Override
             public void onChanged(@Nullable List<Estate> estates) {
-                estateList = estates;
-                initList(estateList);
+                initList(estates);
             }
         });
     }
@@ -187,6 +187,7 @@ public class ListFragment extends Fragment {
     private void initList(List<Estate> estates) {
         estateList.clear();
         estateList.addAll(estates);
+        Toast.makeText(activity, "EstateList:" + estateList.size(), Toast.LENGTH_SHORT).show();
         for (Estate estate : estateList) {
             getOnePicture(estate.getId());
         }
@@ -233,7 +234,6 @@ public class ListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getAllEstates();
     }
 
     @Override
