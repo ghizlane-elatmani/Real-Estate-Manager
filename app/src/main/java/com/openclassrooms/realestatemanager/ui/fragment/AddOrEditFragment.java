@@ -365,7 +365,6 @@ public class AddOrEditFragment extends Fragment {
         } else
             isSold = false;
 
-        // If the set of fields relative to the address are filled then it calls the method getLocation.
         if (address != null && zipCode != 0 && city != null) {
             if (Utils.isNetworkAvailable(activity)) {
                 getLocation(address + " " + zipCode + " " + city);
@@ -377,9 +376,8 @@ public class AddOrEditFragment extends Fragment {
      * Updates estate that is the current Estate with the fetched user's input.
      */
     private void updateEstate (String type,int price, int surface, int number_rooms, String
-            description, String address,
-                               int zipCode, String city,double lat, double lng, String points_interest,boolean isSold,
-                               Date entry_date, Date date_sale, String agent_name,int number_picture){
+            description, String address, int zipCode, String city,double lat, double lng, String points_interest,
+                               boolean isSold, Date entry_date, Date date_sale, String agent_name,int number_picture){
         estate.setType(type);
         estate.setPrice(price);
         estate.setSurface(surface);

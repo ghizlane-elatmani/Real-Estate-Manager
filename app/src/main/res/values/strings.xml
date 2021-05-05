@@ -103,5 +103,9 @@
     <string name="please_zip_code">Please enter zip code</string>
     <string name="please_city">Please enter city</string>
     <string name="no_result">No result</string>
+    <string name="entry_date_min">Entry date min</string>
+    <string name="entry_date_max">Entry date max</string>
+    <string name="sold_date_min">Sold date min</string>
+    <string name="sold_date_max">Sold date max</string>
 
 </resources>

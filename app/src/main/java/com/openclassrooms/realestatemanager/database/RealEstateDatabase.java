@@ -85,11 +85,11 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue1.put("lng", -73.253030);
                 estateValue1.put("city", "NY");
                 estateValue1.put("points_interest", "Transportation, school");
-                estateValue1.put("isSold", "Available");
+                estateValue1.put("isSold", false);
                 estateValue1.put("entry_date", "");
                 estateValue1.put("date_sale", "");
                 estateValue1.put("agent_name", "Oliver Queen");
-                estateValue1.put("number_picture", 0);
+                estateValue1.put("number_picture", 6);
                 db.insert("estate", OnConflictStrategy.IGNORE, estateValue1);
 
                 ContentValues estateValue2 = new ContentValues();
@@ -105,11 +105,11 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue2.put("lng", -73.878320);
                 estateValue2.put("city", "NY");
                 estateValue2.put("points_interest", "Transportation, school");
-                estateValue2.put("isSold", "Available");
+                estateValue2.put("isSold", false);
                 estateValue2.put("entry_date", "");
                 estateValue2.put("date_sale", "");
                 estateValue2.put("agent_name", "Oliver Queen");
-                estateValue2.put("number_picture", 0);
+                estateValue2.put("number_picture", 4);
                 db.insert("estate", OnConflictStrategy.IGNORE, estateValue2);
 
                 ContentValues estateValue3 = new ContentValues();
@@ -125,11 +125,11 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue3.put("lng", -72.477300);
                 estateValue3.put("city", "NY");
                 estateValue3.put("points_interest", "Transportation, school, park");
-                estateValue3.put("isSold", "Available");
+                estateValue3.put("isSold", false);
                 estateValue3.put("entry_date", "");
                 estateValue3.put("date_sale", "");
                 estateValue3.put("agent_name", "Oliver Queen");
-                estateValue3.put("number_picture", 0);
+                estateValue3.put("number_picture", 4);
                 db.insert("estate", OnConflictStrategy.IGNORE, estateValue3);
 
                 // house n°1
