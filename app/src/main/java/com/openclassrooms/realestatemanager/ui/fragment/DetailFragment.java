@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
@@ -181,17 +182,19 @@ public class DetailFragment extends Fragment {
         binding.detailEntryDateTextView.setText(DateUtils.convertDateToString(estate.getEntry_date(), getContext()));
         binding.detailSoldDateTextView.setText(DateUtils.convertDateToString(estate.getDate_sale(), getContext()));
 
-        // TODO: fix null pointer exception...
-        /**
-         glide.load("https://maps.googleapis.com/maps/api/staticmap?" +
-         "center=" + estate.getLat() + "," + estate.getLng() +
-         "&zoom=14" +
-         "&size=200x200" +
-         "&scale=2" +
-         "&maptype=terrain" +
-         "&key=" + GOOGLE_MAP_API_KEY)
-         .centerCrop().into(binding.detailStaticMapsImageView);
-         **/
+        String url = "https://maps.googleapis.com/maps/api/staticmap?" +
+                "center=" + estate.getLat() + "," + estate.getLng() +
+                "&zoom=14" +
+                "&size=200x200" +
+                "&scale=2" +
+                "&maptype=terrain" +
+                "&key=" + GOOGLE_MAP_API_KEY;
+
+        Glide.with(getContext())
+                .load(url)
+                .centerCrop()
+                .into(binding.detailStaticMapsImageView);
+
     }
 
 
