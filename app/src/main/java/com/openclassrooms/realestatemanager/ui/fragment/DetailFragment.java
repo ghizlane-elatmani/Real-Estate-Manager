@@ -161,17 +161,23 @@ public class DetailFragment extends Fragment {
 
     private void initDetails(Estate estate) {
         binding.detailDescriptionTextView.setText(estate.getDescription());
-        Log.i("init detail", estate.getDescription());
+
         binding.detailSurfaceTextView.setText(estate.getSurface() + "m²");
+
         binding.detailNumberBedroomTextView.setText(String.valueOf(estate.getNumber_rooms()));
+
         String address = estate.getAddress() + ", " + estate.getZipCode() + ", " + estate.getCity();
-        Log.i("init detail", address);
         binding.detailAddressTextView.setText(address);
+
         binding.detailInterestTextView.setText(estate.getPoints_interest());
+
         binding.detailTypeTextView.setText(estate.getType());
+
         String price = String.valueOf(estate.getPrice());
         binding.detailPriceTextView.setText(Utils.formatNumberCurrency(price));
+
         //binding.detailStatusTextView.setText(estate.get);
+
         binding.detailEntryDateTextView.setText(DateUtils.convertDateToString(estate.getEntry_date(), getContext()));
         binding.detailSoldDateTextView.setText(DateUtils.convertDateToString(estate.getDate_sale(), getContext()));
 
