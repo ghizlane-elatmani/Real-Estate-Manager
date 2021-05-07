@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class EstateContentProviderTest {
+public class ContentProviderTest {
 
     private ContentResolver contentResolver;
     private RealEstateDatabase database;
@@ -63,7 +63,7 @@ public class EstateContentProviderTest {
         final Cursor cursor = contentResolver.query(ContentUris.withAppendedId(URI_ESTATE,0),null,null,null,null);
 
         assertThat(cursor, notNullValue());
-        assertThat(cursor.getCount(), is(greaterThan(5)));
+        assertThat(cursor.getCount(), is(greaterThan(2)));
 
     }
 
@@ -72,7 +72,24 @@ public class EstateContentProviderTest {
     public void getEstateThanksToID() {
         final Cursor cursor = contentResolver.query(ContentUris.withAppendedId(URI_ESTATE, 1), null, null, null, null);
 
-        //TODO: finish the method
+        assertThat(cursor, notNullValue());
+        assertEquals(1, cursor.getCount());
+        assertTrue(cursor.moveToFirst());
+
+        assertEquals(1, cursor.getLong(cursor.getColumnIndexOrThrow("id")));
+        assertEquals("penthouse", cursor.getString(cursor.getColumnIndexOrThrow("type")));
+        assertEquals(450000, cursor.getInt(cursor.getColumnIndexOrThrow("price")));
+        assertEquals(200, cursor.getInt(cursor.getColumnIndexOrThrow("surface")));
+        assertEquals(4, cursor.getInt(cursor.getColumnIndexOrThrow("number_rooms")));
+        assertEquals("House in New York with garage. Close to all amenities. It has 3 large bedrooms, 2 bathrooms and a large living room.", cursor.getString(cursor.getColumnIndexOrThrow("description")));
+        assertEquals("7409 West Sussex Lane Bay Shore", cursor.getString(cursor.getColumnIndexOrThrow("address")));
+        assertEquals(11706, cursor.getInt(cursor.getColumnIndexOrThrow("zipCode")));
+        assertEquals("NY", cursor.getString(cursor.getColumnIndexOrThrow("city")));
+        assertEquals(40.711100, cursor.getDouble(cursor.getColumnIndexOrThrow("lat")), 0);
+        assertEquals(-73.253030, cursor.getDouble(cursor.getColumnIndexOrThrow("lng")), 0);
+        assertEquals("Transportation, school", cursor.getString(cursor.getColumnIndexOrThrow("points_interest")));
+        assertEquals("Oliver Queen", cursor.getString(cursor.getColumnIndexOrThrow("agent_name")));
+        assertEquals(6, cursor.getInt(cursor.getColumnIndexOrThrow("number_picture")));
 
         cursor.close();
     }
@@ -82,7 +99,19 @@ public class EstateContentProviderTest {
     public void getPhotosThanksToID() {
         final Cursor cursor = contentResolver.query(ContentUris.withAppendedId(URI_PHOTO, 1), null, null, null, null);
 
-        //TODO: finish the method
+        assertThat(cursor, notNullValue());
+        assertEquals(6, cursor.getCount());
+        assertTrue(cursor.moveToFirst());
+
+        assertEquals("android.resource://com.openclassrooms.realestatemanager/drawable/house",cursor.getString(cursor.getColumnIndexOrThrow("uri")));
+        assertEquals("Facade",cursor.getString(cursor.getColumnIndexOrThrow("label")));
+        assertEquals(1,cursor.getLong(cursor.getColumnIndexOrThrow("estate_id")));
+
+        cursor.moveToNext();
+
+        assertEquals("android.resource://com.openclassrooms.realestatemanager/drawable/house_g",cursor.getString(cursor.getColumnIndexOrThrow("uri")));
+        assertEquals("Garage",cursor.getString(cursor.getColumnIndexOrThrow("label")));
+        assertEquals(1,cursor.getLong(cursor.getColumnIndexOrThrow("estate_id")));
 
         cursor.close();
     }
