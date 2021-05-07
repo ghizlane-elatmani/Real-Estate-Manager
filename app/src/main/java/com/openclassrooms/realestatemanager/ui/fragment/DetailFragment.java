@@ -177,8 +177,6 @@ public class DetailFragment extends Fragment {
         String price = String.valueOf(estate.getPrice());
         binding.detailPriceTextView.setText(Utils.formatNumberCurrency(price));
 
-        //binding.detailStatusTextView.setText(estate.get);
-
         binding.detailEntryDateTextView.setText(DateUtils.convertDateToString(estate.getEntry_date(), getContext()));
         binding.detailSoldDateTextView.setText(DateUtils.convertDateToString(estate.getDate_sale(), getContext()));
 
