@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.fragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -42,6 +43,7 @@ import static com.openclassrooms.realestatemanager.utils.Constant.SEARCH_FRAGMEN
 
 public class SearchFragment extends Fragment {
 
+    // --- Attribute ---
     private FragmentSearchBinding binding;
     private Activity activity;
     private int priceMin;
@@ -109,6 +111,20 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        binding.searchSoldDateMinTextInputEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayDatePickerAndUpdateUi(view);
+            }
+        });
+
+        binding.searchSolddateMaxTextInputEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayDatePickerAndUpdateUi(view);
+            }
+        });
+
         binding.searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +147,11 @@ public class SearchFragment extends Fragment {
                     binding.searchDateMaxTextInputEditText.setText(SearchFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
                 } else if (id == R.id.search_date_min_text_input_edit_text) {
                     binding.searchDateMinTextInputEditText.setText(SearchFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
+                }else if (id == R.id.search_sold_date_min_text_input_edit_text) {
+                    binding.searchSoldDateMinTextInputEditText.setText(SearchFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
+
+                } else if (id == R.id.search__solddate_max_text_input_edit_text) {
+                    binding.searchSolddateMaxTextInputEditText.setText(SearchFragment.this.getString(R.string.hour_format, day1, month1 + 1, year1));
                 }
             }
         }, year, month, day);
@@ -140,14 +161,24 @@ public class SearchFragment extends Fragment {
                 int id = view.getId();
                 if (id == R.id.search_date_max_text_input_edit_text) {
                     binding.searchDateMaxTextInputEditText.setText(null);
+
                 } else if (id == R.id.search_date_min_text_input_edit_text) {
                     binding.searchDateMinTextInputEditText.setText(null);
+
+                } else if (id == R.id.search_sold_date_min_text_input_edit_text) {
+                    binding.searchSoldDateMinTextInputEditText.setText(null);
+
+                } else if (id == R.id.search__solddate_max_text_input_edit_text) {
+                    binding.searchSolddateMaxTextInputEditText.setText(null);
                 }
             }
         });
         datePickerDialog.show();
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
     }
 
+    // --- When the user click on search button, this method will get all the user'input ---
     public void getDataInput(){
         getType();
         getPrice();
@@ -216,10 +247,10 @@ public class SearchFragment extends Fragment {
         int chipId = binding.searchIsSoldChipGroup.getCheckedChipId();
 
         if (chipId == R.id.search_date_available_chip) {
-            isSold = 1;
+            isSold = 0;
 
         } else if (chipId == R.id.search_date_sold_chip) {
-            isSold = 0;
+            isSold = 1;
 
         } else {
             isSold = 123;

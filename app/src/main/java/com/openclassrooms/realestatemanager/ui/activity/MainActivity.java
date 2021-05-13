@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    // --- Configure the navigation ---
     private void configureNavigationUI() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         if(navHostFragment != null){
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    // --- onBackPress for DrawerMenu ---
     @Override
     public void onBackPressed() {
         if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // --- onNavigationItemSelected for DrawerMenu ---
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    // --- check if NetWork is available, if not ask the user to allow it ---
     private void checkIfNetworkAvailable() {
         isNetworkAvailable = Utils.isNetworkAvailable(this);
         if (!isNetworkAvailable) {
@@ -115,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // --- When the app has the permission, the user will be redirected to MapViewFragment ---
     @AfterPermissionGranted(ACCESS_LOCATION)
     private void getPermissionsAccessLocation() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};

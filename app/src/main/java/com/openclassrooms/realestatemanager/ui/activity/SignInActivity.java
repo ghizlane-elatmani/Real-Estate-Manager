@@ -47,6 +47,7 @@ public class SignInActivity extends AppCompatActivity {
         this.viewModel = new ViewModelProvider(this, viewModelFactory).get(EstateViewModel.class);
     }
 
+    // --- Fetch All Agents in database ---
     private void getAllAgents() {
         viewModel.getAllAgent().observe(this, new Observer<List<Agent>>() {
             @Override
@@ -57,6 +58,7 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    // --- The user has to choose a agent in the spinner ---
     private void configure() {
         ArrayAdapter<Agent> arrayAdapter = new ArrayAdapter(this, R.layout.row_options, agentList);
         binding.signInAutocompleteTextView.setAdapter(arrayAdapter);
@@ -70,6 +72,7 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    // --- When the user had chosen the agent, it will be redirected to MainActivity ---
     private void navigateToMainActivity(Agent agent) {
         Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();

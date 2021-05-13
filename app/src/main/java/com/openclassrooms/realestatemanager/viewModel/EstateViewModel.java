@@ -56,10 +56,6 @@ public class EstateViewModel extends ViewModel {
         return estateDataSource.getEstate(estateId);
     }
 
-    public LiveData<List<Estate>> getEstateByCityAndCountry(String city) {
-        return estateDataSource.getEstateByCityAndCountry(city);
-    }
-
     public LiveData<List<Estate>> getAllEstatesAccordingToUserSearch(SupportSQLiteQuery query) {
         return estateDataSource.getAllEstatesAccordingToUserSearch(query);
     }
@@ -142,7 +138,7 @@ public class EstateViewModel extends ViewModel {
         return photoDataSource.getPhotos(estateId);
     }
 
-    public LiveData<Photo> getOnePicture(long estateId) {
+    public LiveData<Photo> getOnePhoto(long estateId) {
         return photoDataSource.getOnePhoto(estateId);
     }
 
@@ -153,14 +149,6 @@ public class EstateViewModel extends ViewModel {
                 photoDataSource.deletePicture(photo);
             }
         });
-    }
-
-    public void addUriList(List<Uri> uriList) {
-        this.uriList.setValue(uriList);
-    }
-
-    public LiveData<List<Uri>> getUriList() {
-        return uriList;
     }
 
 }

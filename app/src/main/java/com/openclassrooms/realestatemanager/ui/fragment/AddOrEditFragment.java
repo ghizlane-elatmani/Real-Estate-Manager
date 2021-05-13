@@ -33,21 +33,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -73,14 +68,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
 import static com.openclassrooms.realestatemanager.App.CHANNEL_1_ID;
-import static com.openclassrooms.realestatemanager.R.style.ThemeOverlay_App_DatePicker;
 import static com.openclassrooms.realestatemanager.utils.Constant.ESTATE_ID;
 import static com.openclassrooms.realestatemanager.utils.Constant.IMAGE_CAPTURE_CODE;
 import static com.openclassrooms.realestatemanager.utils.Constant.IMAGE_PICK_CODE;
@@ -88,7 +81,7 @@ import static com.openclassrooms.realestatemanager.utils.Constant.READ_AND_WRITE
 
 public class AddOrEditFragment extends Fragment {
 
-    // variables
+    // --- Attribute ---
     private Estate estate;
     private String type;
     private int price;
@@ -195,7 +188,7 @@ public class AddOrEditFragment extends Fragment {
         });
     }
 
-    // Sets the LiveData values in estate and binds estate's attributes into the dedicated views.
+    // --- update ui with estate's info ---
     private void updateUiWithEstateData(Estate estate1) {
         estate = estate1;
 
@@ -278,7 +271,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
 
-    // Configures the RecyclerView's adapter and sets the expected behavior when user click on an RecyclerView's item
+    // --- Configures the RecyclerView's adapter and sets the expected behavior when user click on an RecyclerView's item ---
     private void configureRecyclerView() {
         binding.addPhotoRecyclerView.setVisibility(View.GONE);
         adapter = new AddPhotoAdapter(photoList, 2);
@@ -317,7 +310,7 @@ public class AddOrEditFragment extends Fragment {
         binding.addPhotoRecyclerView.setAdapter(adapter);
     }
 
-    // fetch the user's input, verifies if the input is not empty and sets the values into the corresponding fields.
+    // --- fetch the user's input ---
     private void getTheUserInput() {
         // estate' type
         if (!TextUtils.isEmpty(binding.addTypeTextInputEditText.getText()))
@@ -370,11 +363,14 @@ public class AddOrEditFragment extends Fragment {
                 getLocation(address + " " + zipCode + " " + city);
             }
         }
+
+        // estate' agent
+        if (!TextUtils.isEmpty(binding.addAgentTextInputEditText.getText())) {
+            agent_name = binding.addAgentTextInputEditText.getText().toString();
+        }
     }
 
-    /**
-     * Updates estate that is the current Estate with the fetched user's input.
-     */
+    // --- update estate with the fetched user's input ---
     private void updateEstate (String type,int price, int surface, int number_rooms, String
             description, String address, int zipCode, String city,double lat, double lng, String points_interest,
                                boolean isSold, Date entry_date, Date date_sale, String agent_name,int number_picture){
@@ -434,19 +430,15 @@ public class AddOrEditFragment extends Fragment {
         });
     }
 
-    /**
-     * Creates the selected pictures in database with the current estate's Id for attribute.
-     */
-    private void savePictureInDb ( long estate_id){
+    // --- Create photo in database with the current estate's id for attribute. ---
+    private void savePhotoInDb(long estate_id){
         for (Photo photo : photoList) {
             photo.setEstateId(estate_id);
             viewModel.createPictures(photo);
         }
     }
 
-    /**
-     * Uses Geocoder object to fetch the latitude and the longitude from an address.
-     */
+    // --- Uses Geocoder object to fetch lat/lng from an address ---
     private void getLocation (String address){
         Geocoder geocoder = new Geocoder(requireActivity(), Locale.getDefault());
         try {
@@ -462,14 +454,14 @@ public class AddOrEditFragment extends Fragment {
         }
     }
 
-    // Updates a property in database with the user's input
+    // --- Updates a estate in database with the user's input ---
     private void updateRealEstateWithNewValues () {
         getTheUserInput();
         number_picture = photoList.size();
         updateEstate(type, price, surface, number_rooms, description, address, zipCode, city, lat, lng,
                 points_interest, isSold, entry_date, date_sale, agent_name, number_picture);
 
-        savePictureInDb(estateId);
+        savePhotoInDb(estateId);
 
         int nbRows = viewModel.updateEstate(estate);
         if (nbRows == 1) {
@@ -482,7 +474,7 @@ public class AddOrEditFragment extends Fragment {
 
     }
 
-    //Creates a property in database with the user's input.
+    // --- Create a estate in database with the user's input.
     private void createNewRealEstateFromInputValues () {
         getTheUserInput();
         number_picture = photoList.size();
@@ -491,7 +483,7 @@ public class AddOrEditFragment extends Fragment {
                 points_interest, isSold, entry_date, date_sale, agent_name, number_picture));
 
         if (rowId != -1) {
-            savePictureInDb(rowId);
+            savePhotoInDb(rowId);
             sendOnChannel();
             Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment).popBackStack();
         } else
@@ -499,6 +491,7 @@ public class AddOrEditFragment extends Fragment {
 
     }
 
+    // --- send a notification if the estate was added in the database
     private void sendOnChannel() {
         String title = "Real Estate Manager";
         String message = "The real estate has been successfully added to the list";
@@ -513,7 +506,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
 
-    //Displays a DatePicker to select a date and sets the selected value in the corresponding view.
+    // --- displays a DatePicker to select a date and sets the selected value in the corresponding view ---
     private void displayDatePickerAndUpdateUi (final View view){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -542,11 +535,12 @@ public class AddOrEditFragment extends Fragment {
             }
         });
         datePickerDialog.show();
-        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.GREEN);
-        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
     }
 
 
+    // --- The address, zipCode and City is needed for Geocoder ---
     private boolean verifyAddressInputForGeoCoding () {
         if (TextUtils.isEmpty(binding.addAddressTextInputEditText.getText())
                 || (TextUtils.isEmpty(binding.addZipCodeTextInputEditText.getText())
@@ -567,6 +561,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
 
+    // --- if permission is granted, show the dialog ---
     @AfterPermissionGranted(READ_AND_WRITE_EXTERNAL_STORAGE_AND_CAMERA)
     private void getPermissionsExternalStorageAndCamera () {
         String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
@@ -574,13 +569,13 @@ public class AddOrEditFragment extends Fragment {
             EasyPermissions.requestPermissions(this, getString(R.string.permission_storage),
                     READ_AND_WRITE_EXTERNAL_STORAGE_AND_CAMERA, perms);
         } else {
-            showDialogToFetchPictures();
+            showDialogToFetchPhoto();
             Log.i("getStorageAndCamera()", "showDialogToFetchPictures");
         }
     }
 
-    // Displays a AlertDialog to propose to the user to add to the choice either a photo from camera or gallery
-    private void showDialogToFetchPictures () {
+    // --- displays a dialog to propose to the user to add a photo from camera or gallery ---
+    private void showDialogToFetchPhoto() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_fetch_photo,
                 (ConstraintLayout) getActivity().findViewById(R.id.validationLayoutDialog)
@@ -617,10 +612,11 @@ public class AddOrEditFragment extends Fragment {
         alertDialog.show();
     }
 
-    //Creates the file to save the taken photo by user.
+    // ---- Create the file to save the taken photo by user ---
     private File createPhotoFile () throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timestamp + "_";
+
         File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
@@ -628,7 +624,7 @@ public class AddOrEditFragment extends Fragment {
     }
 
 
-    // Creates an intent to allow the user to take a photo with his device's camera and with the right camera application.
+    // --- Create an intent to allow the user to take a photo with his device's camera and with the right camera application ---
     private void openCameraForPhoto () {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
@@ -646,7 +642,7 @@ public class AddOrEditFragment extends Fragment {
         }
     }
 
-    //Creates an intent to allow the user to pick a photo in memory with the right application.
+    // --- Create an intent to allow the user to pick a photo in the gallery ---
     private void pickPhotoFromGallery () {
         Uri collection;
         collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -657,8 +653,8 @@ public class AddOrEditFragment extends Fragment {
     }
 
 
-    // Displays a MaterialAlertDialog to ask the user to enter a caption for the chosen photo.
-    private void savePictureCaption ( final String uri){
+    // --- Display a dialog to ask the user to enter a description for the chosen photo ---
+    private void showDialogToSavePhoto(final String uri){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_photo_validation,
                 (ConstraintLayout) getActivity().findViewById(R.id.validationLayoutDialog)
@@ -713,11 +709,11 @@ public class AddOrEditFragment extends Fragment {
     public void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE) {
-            savePictureCaption(currentPhotoPath);
+            showDialogToSavePhoto(currentPhotoPath);
         } else if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE && data != null) {
             Uri uri = data.getData();
             String path = getRealPathFromURI(uri);
-            savePictureCaption(path);
+            showDialogToSavePhoto(path);
         }
     }
 
@@ -736,10 +732,9 @@ public class AddOrEditFragment extends Fragment {
         }
     }
 
-
+    // --- sets adapters and listeners to null to avoid memory leaks ---
     @Override
     public void onDestroyView () {
-        // sets adapters and listeners to null to avoid memory leaks.
         binding.addPhotoRecyclerView.setAdapter(null);
         adapter.setOnClickListener(null);
         super.onDestroyView();

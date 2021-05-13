@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,21 +39,15 @@ import java.util.List;
 
 public class ListFragment extends Fragment {
 
-    // adapter
+    // --- Attribute ---
+    private FragmentListBinding binding;
     private EstateAdapter adapter;
-
-    // view model
     private EstateViewModel viewModel;
-
-    // variables
     private List<Estate> estateList;
     private List<Photo> photoList;
     private Activity activity;
     private String origin;
     private long estateId;
-
-    // views, binding
-    FragmentListBinding binding;
 
     public ListFragment() {
         // Required empty public constructor
@@ -83,6 +75,7 @@ public class ListFragment extends Fragment {
         return binding.getRoot();
     }
 
+    // --- If origin == null then get all Estates or origin != null then get Search Estate ---
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -98,18 +91,20 @@ public class ListFragment extends Fragment {
         toolbar.setTitle("Real Estate Manager");
     }
 
+    // --- Inflate the menu ---
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         NavController controller = Navigation.findNavController(activity, R.id.main_nav_host_fragment);
         if (item.getItemId() == R.id.action_edit) {
             Bundle args = new Bundle();
-            args.putLong("estateID", estateId);
+            args.putLong("realEstateID", estateId);
             controller.navigate(R.id.addOrEditFragment, args);
             return true;
         } else if (item.getItemId() == R.id.action_search) {
@@ -128,6 +123,7 @@ public class ListFragment extends Fragment {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(activity);
         viewModel = new ViewModelProvider((FragmentActivity) activity, viewModelFactory).get(EstateViewModel.class);
     }
+
 
     private void configureRecyclerView() {
         adapter = new EstateAdapter(estateList, photoList);
@@ -160,7 +156,6 @@ public class ListFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Estate> estates) {
                 initList(estates);
-                Log.i("ListFragment", String.valueOf(estates.size()));
             }
         });
     }
@@ -184,25 +179,28 @@ public class ListFragment extends Fragment {
         });
     }
 
+    // --- init the list with estate list and for each estate get one photo ---
     private void initList(List<Estate> estates) {
         estateList.clear();
         estateList.addAll(estates);
         Toast.makeText(activity, "EstateList:" + estateList.size(), Toast.LENGTH_SHORT).show();
         for (Estate estate : estateList) {
-            getOnePicture(estate.getId());
+            getOnePhoto(estate.getId());
         }
     }
 
-    private void getOnePicture(long estateId) {
-        viewModel.getOnePicture(estateId).observe(getViewLifecycleOwner(), new Observer<Photo>() {
+    // --- get one photo thanks to the estate' id ---
+    private void getOnePhoto(long estateId) {
+        viewModel.getOnePhoto(estateId).observe(getViewLifecycleOwner(), new Observer<Photo>() {
             @Override
             public void onChanged(Photo photo) {
-                initPictures(photo);
+                initPhotos(photo);
             }
         });
     }
 
-    private void initPictures(Photo photo) {
+    // --- add the photo to the list ---
+    private void initPhotos(Photo photo) {
         if (photo != null)
             photoList.add(photo);
         adapter.notifyDataSetChanged();
@@ -234,17 +232,9 @@ public class ListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (getResources().getBoolean(R.bool.isTabletLand)) {
+            getSelectedEstateId();
+        }
     }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
 
 }

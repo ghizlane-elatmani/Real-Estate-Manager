@@ -2,9 +2,6 @@ package com.openclassrooms.realestatemanager.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -40,7 +37,6 @@ import com.openclassrooms.realestatemanager.injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.viewModel.EstateViewModel;
 
-import java.io.IOException;
 import java.util.List;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
@@ -108,7 +104,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void passRealEstateIdToFragmentDetails(long id) {
+    private void passEstateIdToDetailFragment(long id) {
         if (getResources().getBoolean(R.bool.isTabletLand)) {
             NavController controller = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment2);
             Bundle args = new Bundle();
@@ -143,7 +139,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 long id = Long.parseLong(marker.getSnippet());
-                MapViewFragment.this.passRealEstateIdToFragmentDetails(id);
+                MapViewFragment.this.passEstateIdToDetailFragment(id);
 
             }
         });
@@ -154,7 +150,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                 long id = Long.parseLong(marker.getSnippet());
                 if (marker.getTitle().equals(marker.getTag())) {
                     marker.setTag(null);
-                    MapViewFragment.this.passRealEstateIdToFragmentDetails(id);
+                    MapViewFragment.this.passEstateIdToDetailFragment(id);
                 } else {
                     marker.showInfoWindow();
                     marker.setTag(marker.getTitle());
@@ -165,10 +161,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         getLastKnownLocation();
     }
 
-    /**
-     * Fetches the user's last known position (Latitude, Longitude) from the Google Play Services
-     * and move the map's camera on this position.
-     */
+    // --- Fetches the user's last known position and move the map's camera on this position ---
     private void getLastKnownLocation() {
         try {
             FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);

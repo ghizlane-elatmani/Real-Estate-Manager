@@ -18,6 +18,9 @@ import com.openclassrooms.realestatemanager.database.dao.PhotoDao;
 import com.openclassrooms.realestatemanager.model.Agent;
 import com.openclassrooms.realestatemanager.model.Estate;
 import com.openclassrooms.realestatemanager.model.Photo;
+import com.openclassrooms.realestatemanager.utils.DateUtils;
+
+import java.util.Date;
 
 @Database(entities = {Agent.class, Estate.class, Photo.class}, version = 1, exportSchema = false)
 @TypeConverters({DataConverters.class})
@@ -85,9 +88,9 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue1.put("lng", -73.253030);
                 estateValue1.put("city", "NY");
                 estateValue1.put("points_interest", "Transportation, school");
-                estateValue1.put("isSold", false);
-                estateValue1.put("entry_date", "");
-                estateValue1.put("date_sale", "");
+                estateValue1.put("isSold", true);
+                estateValue1.put("entry_date", DataConverters.dateToTimestamp(DateUtils.convertStringToDate("03-02-2017")));
+                estateValue1.put("date_sale", DataConverters.dateToTimestamp(DateUtils.convertStringToDate("18-09-2017")));
                 estateValue1.put("agent_name", "Oliver Queen");
                 estateValue1.put("number_picture", 6);
                 db.insert("estate", OnConflictStrategy.IGNORE, estateValue1);
@@ -105,9 +108,9 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue2.put("lng", -73.878320);
                 estateValue2.put("city", "NY");
                 estateValue2.put("points_interest", "Transportation, school");
-                estateValue2.put("isSold", false);
-                estateValue2.put("entry_date", "");
-                estateValue2.put("date_sale", "");
+                estateValue2.put("isSold", true);
+                estateValue2.put("entry_date", DataConverters.dateToTimestamp(DateUtils.convertStringToDate("11-02-2021")));
+                estateValue2.put("date_sale", DataConverters.dateToTimestamp(DateUtils.convertStringToDate("15-05-2021")));
                 estateValue2.put("agent_name", "Oliver Queen");
                 estateValue2.put("number_picture", 4);
                 db.insert("estate", OnConflictStrategy.IGNORE, estateValue2);
@@ -125,9 +128,9 @@ public abstract class RealEstateDatabase extends RoomDatabase {
                 estateValue3.put("lng", -72.477300);
                 estateValue3.put("city", "NY");
                 estateValue3.put("points_interest", "Transportation, school, park");
-                estateValue3.put("isSold", false);
-                estateValue3.put("entry_date", "");
-                estateValue3.put("date_sale", "");
+                estateValue3.put("isSold", true);
+                estateValue3.put("entry_date", DataConverters.dateToTimestamp(DateUtils.convertStringToDate("12-05-2019")));
+                estateValue3.put("date_sale", DataConverters.dateToTimestamp(DateUtils.convertStringToDate("02-09-2020")));
                 estateValue3.put("agent_name", "Oliver Queen");
                 estateValue3.put("number_picture", 4);
                 db.insert("estate", OnConflictStrategy.IGNORE, estateValue3);

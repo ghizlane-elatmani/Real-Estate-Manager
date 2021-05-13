@@ -45,7 +45,7 @@ import java.util.List;
 
 public class DetailFragment extends Fragment {
 
-    // variables
+    // --- Attribute ---
     private FragmentDetailBinding binding;
     private String GOOGLE_MAP_API_KEY = BuildConfig.API_KEY;
     private RequestManager glide;
@@ -92,12 +92,14 @@ public class DetailFragment extends Fragment {
         getEstateDetail();
     }
 
+    // --- inflate the menu ---
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_detail, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    // --- open AddOrEditFragment if the user click on edit icon ---
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_detail_edit) {
@@ -122,6 +124,7 @@ public class DetailFragment extends Fragment {
     }
 
 
+    // --- get Estate' info and all the photos thanks to the id
     private void getEstateDetail() {
         viewModel.getEstate(estate_id).observe(getViewLifecycleOwner(), new Observer<Estate>() {
             @Override
@@ -203,7 +206,8 @@ public class DetailFragment extends Fragment {
         } else {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment2);
             Bundle args = new Bundle();
-            args.putLong("estateID", estateID);
+            args.putLong("realEstateID", estateID);
+            Log.i("DetailFragment", "estateID" + estateID);
             navController.navigate(R.id.addOrEditFragment, args);
         }
 
